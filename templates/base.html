@@ -6,6 +6,7 @@
         <h1>LITReview</h1>
         {%  if user.is_authenticated %}
             <p>Connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
+            <p>Souhaitez-vous <a href="{% url 'password_change' %}">changer votre mot de passe</a> ?</p>
         {% endif %}
         {% block content %}{% endblock content %}
         
