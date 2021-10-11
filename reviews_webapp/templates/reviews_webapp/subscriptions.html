@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="width: 80%; margin:auto;">
+    <h3>Suivre d'autres utilisateurs</h3>
+    <p> 
+        <input type="text"  value="Nom d'utilisateur"/>
+        <button type="submit">Envoyer</button>
+    </p>
+
+    <h3>Abonnements</h3>
+    <table style="width: 100%;">
+        {% for user in subscribed_to %}
+        <tr>
+            <td style="border: 1px solid black">{{ user }}</td>
+            <td style="width: 15%; border: 1px solid black"><a href="#">Désabonner</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Abonnés</h3>
+    <table style="width: 100%;">
+        {% for user in subscribers %}
+        <tr>
+            <td style="border: 1px solid black">{{ user }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+    
+
+{% endblock content %}

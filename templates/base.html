@@ -5,9 +5,10 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     </head>
     <body>
-        {% include 'includes/navbar.html' %}
-        {% block content %}{% endblock content %}
-        
+        <div class="container">
+            {% include 'includes/navbar.html' %}
+            {% block content %}{% endblock content %}
+        </div>
     </body>
     {% include 'includes/footer.html' %}
 </html>
