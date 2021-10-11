@@ -1,14 +1,13 @@
+{% load static %}
 <html>
     <head>
         <title>LITReview</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     </head>
     <body>
-        <h1>LITReview</h1>
-        {%  if user.is_authenticated %}
-            <p>Connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
-            <p>Souhaitez-vous <a href="{% url 'password_change' %}">changer votre mot de passe</a> ?</p>
-        {% endif %}
+        {% include 'includes/navbar.html' %}
         {% block content %}{% endblock content %}
         
     </body>
+    {% include 'includes/footer.html' %}
 </html>

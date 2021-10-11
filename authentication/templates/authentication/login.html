@@ -1,9 +1,24 @@
+<title>LITReview login</title>
+
 {% extends 'base.html' %}
 {% block content %}
-    <p>{{ message }}</p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Se connecter</button>
-    </form>
+<div class="container two-col-container">
+    <div>
+        <p>Inscrivez-vous maintenant</p>
+        <button onclick="window.location.href={% url 'signup' %}">S'inscrire</button>
+        
+    </div>
+    <div>
+        <p>Connectez-vous</p>
+        <p>{{ message }}</p>
+
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit" >Se connecter</button>
+        </form>
+        
+    </div>    
+</div>
+    
 {% endblock content %}

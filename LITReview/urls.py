@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, redirect_to_login
 
 import authentication.views
 import reviews_webapp.views
@@ -34,4 +34,5 @@ urlpatterns = [
         template_name='authentication/password_change_done.html'),
         name='password_change_done'),
     path('home', reviews_webapp.views.home, name="home"),
+    path('signup/', authentication.views.SignupPageView.as_view(), name='signup'),
 ]
