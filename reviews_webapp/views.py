@@ -17,8 +17,8 @@ def home(request):
 class SubscriptionPageView(View, LoginRequiredMixin):
     template_name = "reviews_webapp/subscriptions.html"
     sub_form = SubscriptionForm()
-    subscriptions = [user_object.followed_user for user_object in UserFollows.objects.filter(user=User.objects.get(pk=1))]
-    followers = [user_object.user for user_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=1))]
+    subscriptions = [relationship_object for relationship_object in UserFollows.objects.filter(user=User.objects.get(pk=1))]
+    followers = [relationship_object.user for relationship_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=1))]
 
     def get(self, request):
         context = {
@@ -29,6 +29,7 @@ class SubscriptionPageView(View, LoginRequiredMixin):
         return render(request, self.template_name, context)
 
     def post(self, request):
+        
         # form is valid ?
         # if self.sub_form.is_existing_user():
         # subscriptions.append(request.POST['username'])

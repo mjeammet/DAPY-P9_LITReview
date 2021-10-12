@@ -8,16 +8,16 @@
             {% csrf_token %}
             {{ form.username.errors }}
             {{ form.username }}
-            <input type="submit" value="Envoyer">
+            <input type="submit"/>
         </form>
     </p>
 
     <h3>Abonnements</h3>
     <table style="width: 100%;">
-        {% for user in subscriptions %}
+        {% for relationship in subscriptions %}
         <tr>
-            <td style="border: 1px solid black">{{ user }}</td>
-            <td style="width: 15%; border: 1px solid black"><a href="#">Désabonner</a></td>
+            <td style="border: 1px solid black">{{ relationship.followed_user.username }}</td>
+            <td style="width: 15%; border: 1px solid black"  onclick='alert(ehehehz);'><a href="#"  onclick='alert(ehehehz);'>Désabonner</a></td>
         </tr>
         {% endfor %}
     </table>
