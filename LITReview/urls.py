@@ -35,6 +35,6 @@ urlpatterns = [
         name='password_change_done'),
     path('home', reviews_webapp.views.home, name="home"),
     path('signup/', authentication.views.SignupPageView.as_view(), name='signup'),
-    # path('subscriptions/', reviews_webapp.views.SubscriptionPageView.as_view(), name='subscriptions'),
-    path('subscriptions/', reviews_webapp.views.subscr, name='subscriptions'),
+    path('subscriptions/', reviews_webapp.views.SubscriptionPageView.as_view(), name='subscriptions'),
+    # path('subscriptions/', reviews_webapp.views.subscr, name='subscriptions'),
 ]

@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<div style="width: 80%; margin:auto;">
+<div class="inside_container">
     <h3>Suivre d'autres utilisateurs</h3>
-    <p> 
-        <input type="text"  value="Nom d'utilisateur"/>
-        <button type="submit">Envoyer</button>
+    <p>
+        <form method="post"> 
+            {{ form.non_field_errors }}
+            {% csrf_token %}
+            {{ form.username.errors }}
+            {{ form.username }}
+            <input type="submit" value="Envoyer">
+        </form>
     </p>
 
     <h3>Abonnements</h3>
     <table style="width: 100%;">
-        {% for user in subscribed_to %}
+        {% for user in subscriptions %}
         <tr>
             <td style="border: 1px solid black">{{ user }}</td>
             <td style="width: 15%; border: 1px solid black"><a href="#">Désabonner</a></td>

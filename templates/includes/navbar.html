@@ -1,6 +1,7 @@
+{% load static %}
 <nav class="nav">
-    <div><a href="{% url 'home' %}">LITReview</a></div>    
-    <div style="position: absolute; right: 30px; top: 24px">
+    <a href="{% url 'home' %}"><img src="{% static 'img/LITReview_logo.png' %}" alt="LITReview_logo" width="50px"></a>
+    <div style="position: absolute; right: 30px; top: 40px">
         {% if user.is_authenticated %}
             <a href="#">Flux</a>
             <a href="#">Posts</a>
