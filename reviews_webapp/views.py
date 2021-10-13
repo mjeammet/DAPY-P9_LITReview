@@ -8,19 +8,20 @@ from .models import UserFollows
 from authentication.models import User
 from reviews_webapp.models import Ticket
 
-@login_required
-def feed(request):
-    username = request.user
-    user_id = request.user.id
-    subscriptions = [user.followed_user.id for user in UserFollows.objects.filter(user=1)]
-    subscriptions.append(user_id)
-    tickets = Ticket.objects.filter(user__id__in=subscriptions).order_by('-time_created')
+class FeedPageView(LoginRequiredMixin, View):
+    
+    def get(self, request):
+        username = request.user
+        user_id = request.user.id
+        subscriptions = [user.followed_user.id for user in UserFollows.objects.filter(user=1)]
+        subscriptions.append(user_id)
+        tickets = Ticket.objects.filter(user__id__in=subscriptions).order_by('-time_created')
 
-    context = {
-        "user": username,
-        "posts": tickets,
-    }
-    return render(request, 'reviews_webapp/feed.html', context) 
+        context = {
+            "user": username,
+            "posts": tickets,
+        }
+        return render(request, 'reviews_webapp/feed.html', context)
 
 
 class PostsPageView(LoginRequiredMixin, View):
@@ -82,7 +83,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
 
 class TicketPageView(LoginRequiredMixin, View):
     """A view to create or update tickets."""
-    template = 'reviews_webapp/new_ticket.html'
+    template = 'reviews_webapp/ticket.html'
 
     def get(self, request, ticket_id):
         if ticket_id == "new":
@@ -91,10 +92,16 @@ class TicketPageView(LoginRequiredMixin, View):
                 'form': NewTicketForm()
             }
             return render(request, self.template, context)
-        else:                
+        else:
+            ticket = Ticket.objects.get(pk=ticket_id)
             context = {
                 "title": "Modifier un ticket",
-                # 'form': NewTicketForm(initial={'title': })
+                'form': NewTicketForm(
+                    initial={
+                        'title': ticket.title,
+                        'description': ticket.description,
+                        'image': ticket.image,
+                        })
             }
             return render(request, self.template, context)
 
@@ -106,6 +113,9 @@ class TicketPageView(LoginRequiredMixin, View):
                 new_ticket = Ticket(title=request.POST["title"], description=request.POST["description"], image=request.POST["image"], user=request.user)
                 new_ticket.save()
             else:
-                pass 
-                # TODO update existing ticket
-        return redirect('posts') 
+                ticket = Ticket.objects.get(pk=ticket_id)
+                ticket.title = request.POST["title"]
+                ticket.description = request.POST["description"]
+                ticket.image = request.POST["image"]
+                ticket.save()
+        return redirect('posts')

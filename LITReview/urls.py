@@ -33,10 +33,10 @@ urlpatterns = [
     path('change-password-done/', PasswordChangeDoneView.as_view(
         template_name='authentication/password_change_done.html'),
         name='password_change_done'),
-    path('feed', reviews_webapp.views.feed, name="feed"),
+    path('feed', reviews_webapp.views.FeedPageView.as_view(), name="feed"),
     path('signup/', authentication.views.SignupPageView.as_view(), name='signup'),
     path('subscriptions/', reviews_webapp.views.SubscriptionPageView.as_view(), name='subscriptions'),
     path('posts/', reviews_webapp.views.PostsPageView.as_view(), name='posts'),
-    # path('new_review/', reviews_webapp.views.NewReviewPageView.as_view(), name='new_review'),
     path('ticket/<ticket_id>', reviews_webapp.views.TicketPageView.as_view(), name='ticket'),
+    # path('review/', reviews_webapp.views.NewReviewPageView.as_view(), name='review'),
 ]
