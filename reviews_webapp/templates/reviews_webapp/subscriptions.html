@@ -15,10 +15,18 @@
     <h3>Abonnements</h3>
     <table style="width: 100%;">
         {% for relationship in subscriptions %}
-        <tr>
+
+         <tr>
             <td style="border: 1px solid black">{{ relationship.followed_user.username }}</td>
-            <td style="width: 15%; border: 1px solid black"  onclick='alert(ehehehz);'><a href="#"  onclick='alert(ehehehz);'>Désabonner</a></td>
+            <td>
+                <form action="{% url 'subscriptions' %}" method="post">
+                    {% csrf_token %}
+                    <button value="{{ relationship.id }}" name="unsubscribe_id" method="post">Désabonner</button>
+                    <!-- <input type="submit" value="{{ relationship.id }}" name="unsubscribe"/>Désabonner -->
+                </form>
+            </td>
         </tr>
+
         {% endfor %}
     </table>
     <h3>Abonnés</h3>
@@ -29,7 +37,6 @@
         </tr>
         {% endfor %}
     </table>
-</div>
-    
+</div>    
 
 {% endblock content %}
