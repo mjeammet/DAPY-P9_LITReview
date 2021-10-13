@@ -8,6 +8,9 @@
             <a href="{% url 'subscriptions' %}">Abonnements</a>
             <a href="{% url 'logout' %}">Se déconnecter</a>
             <!-- Souhaitez-vous <a href="{% url 'password_change' %}">changer votre mot de passe</a> ? -->
+        {% else %}
+            <a href="{% url 'login' %}">Log in</a>
+            <a href="{% url 'signup' %}">Sign up</a>
         {% endif %}
     </div>
 </nav>

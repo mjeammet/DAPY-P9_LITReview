@@ -1,25 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="inside_container">
-    Bonjour, {{ user }} !
-    <p>
-        <button>Demander une critique</button>
-        <button>Créer une critique</button>
-    </p>
-    {% for post in posts %}
-    <div style="border: 1px solid black">
-        {% if posts.user.username == user %}
-            <p>Vous avez publié un ticket</p>
-        {% else %}
-            <p>{{ user }} a publié un ticket</p>
-        {% endif %}
-        <p style="text-align: right;">{{ post.time_created }}</p>
-        <p style="text-align: left;">{{ post.title }}</p>
-        <p style="text-align: left;">{{ post.description }}</p>
-        <img src="{{ post.image }}" alt="{{ post.title }}" width="150px">
-    </div>
-    
-    {% endfor %}
-    {{subs}}
-</div>
+<h1>Bonjour, {{ user }} !</h1>
+<p>
+    <button><a href="{% url 'ticket' ticket_id='new' %}">Demander une critique</a></button>
+    <button>Créer une critique</button>
+</p>
+{% include 'reviews_webapp/includes/feed_div.html' %}
 {% endblock content %}

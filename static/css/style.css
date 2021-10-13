@@ -1,6 +1,5 @@
 .container{
-    height: 80vh;
-    text-align: center;
+    height: 90%;
     border: 1px solid black;
     padding: 0px;
 }
@@ -31,4 +30,5 @@ a {
 .inside_container {
     width: 50%;
     margin:auto;
+    text-align: center;
 }

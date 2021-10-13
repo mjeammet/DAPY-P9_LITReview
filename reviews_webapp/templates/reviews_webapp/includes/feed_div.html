@@ -1,0 +1,19 @@
+{% for post in posts %}
+<div style="border: 1px solid black">
+    {% if post.user == user %}
+        <p>Vous avez publié un ticket</p>
+    {% else %}
+        <p>{{ post.user }} a publié un ticket</p>
+    {% endif %}
+    <p style="text-align: right;">{{ post.time_created }}</p>
+    <p style="text-align: left;">{{ post.title }}</p>
+    <p style="text-align: left;">{{ post.description }}</p>
+    <img src="{{ post.image }}" alt="{{ post.title }}" width="150px">
+    {% if post.user == user %}
+    <p>
+        <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
+        <button>Supprimer</button>
+    </p>
+    {% endif %}
+</div>
+{% endfor %}

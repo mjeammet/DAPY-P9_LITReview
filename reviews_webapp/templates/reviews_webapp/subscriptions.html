@@ -1,42 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="inside_container">
-    <h3>Suivre d'autres utilisateurs</h3>
-    <p>
-        <form method="post"> 
-            {{ form.non_field_errors }}
-            {% csrf_token %}
-            {{ form.username.errors }}
-            {{ form.username }}
-            <input type="submit"/>
-        </form>
-    </p>
+<h1>Abonnements</h1>
+<h3>Suivre d'autres utilisateurs</h3>
+<p>
+    <form method="post"> 
+        {{ form.non_field_errors }}
+        {% csrf_token %}
+        {{ form.username.errors }}
+        {{ form.username }}
+        <input type="submit"/>
+    </form>
+</p>
 
-    <h3>Abonnements</h3>
-    <table style="width: 100%;">
-        {% for relationship in subscriptions %}
+<h3>Abonnements</h3>
+<table style="width: 100%;">
+    {% for relationship in subscriptions %}
 
-         <tr>
-            <td style="border: 1px solid black">{{ relationship.followed_user.username }}</td>
-            <td>
-                <form action="{% url 'subscriptions' %}" method="post">
-                    {% csrf_token %}
-                    <button value="{{ relationship.id }}" name="unsubscribe_id" method="post">Désabonner</button>
-                    <!-- <input type="submit" value="{{ relationship.id }}" name="unsubscribe"/>Désabonner -->
-                </form>
-            </td>
-        </tr>
-
-        {% endfor %}
-    </table>
-    <h3>Abonnés</h3>
-    <table style="width: 100%;">
-        {% for user in subscribers %}
         <tr>
-            <td style="border: 1px solid black">{{ user }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>    
+        <td style="border: 1px solid black">{{ relationship.followed_user.username }}</td>
+        <td>
+            <form action="{% url 'subscriptions' %}" method="post">
+                {% csrf_token %}
+                <button value="{{ relationship.id }}" name="unsubscribe_id" method="post">Désabonner</button>
+                <!-- <input type="submit" value="{{ relationship.id }}" name="unsubscribe"/>Désabonner -->
+            </form>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+<h3>Abonnés</h3>
+<table style="width: 100%;">
+    {% for user in subscribers %}
+    <tr>
+        <td style="border: 1px solid black">{{ user }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock content %}

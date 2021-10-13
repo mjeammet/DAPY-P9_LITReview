@@ -1,7 +1,10 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models.base import Model
+from django.forms import ModelForm
 
 from authentication.models import User
+from reviews_webapp.models import Ticket
 
 class SubscriptionForm(forms.Form):
     username = forms.CharField(max_length=30, initial='Nom d\'utilisateur', required=False)
@@ -13,3 +16,9 @@ class SubscriptionForm(forms.Form):
             raise ValidationError("Utilisateur introuvable")
         else:
             return True
+
+class NewTicketForm(ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['title', 'description', 'image']
+        # exclude = ["user", "time_created"]
