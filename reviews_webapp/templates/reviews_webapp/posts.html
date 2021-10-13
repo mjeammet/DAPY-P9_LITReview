@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="inside_container">
+    <h1>Vos posts</h1>
+    {% for post in posts %}
+    <div style="border: 1px solid black">
+        <p>Vous avez publié un ticket</p>
+        <p style="text-align: right;">{{ post.time_created }}</p>
+        <p style="text-align: left;">{{ post.title }}</p>
+        <p style="text-align: left;">{{ post.description }}</p>
+        <img src="{{ post.image }}" alt="{{ post.title }}" width="150px">
+
+    </div>
+    
+    {% endfor %}
+</div>
+{% endblock content %}

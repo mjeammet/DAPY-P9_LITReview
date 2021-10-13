@@ -6,13 +6,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import SubscriptionForm
 from .models import UserFollows
 from authentication.models import User
+from reviews_webapp.models import Ticket
 
 @login_required
-def home(request):
+def feed(request):
+    username = request.user
+    user_id = request.user.id
+    subscriptions = [user.followed_user.id for user in UserFollows.objects.filter(user=1)]
+    subscriptions.append(user_id)
+    tickets = Ticket.objects.filter(user__id__in=subscriptions)
+
     context = {
-        "user": request.user,
+        "user": username,
+        # "posts": Ticket.objects.filter(user=User.objects.get(pk=user_id)),
+        "posts": tickets,
     }
-    return render(request, 'reviews_webapp/home.html', context) 
+    return render(request, 'reviews_webapp/feed.html', context) 
 
 
 class SubscriptionPageView(LoginRequiredMixin, View):
@@ -54,5 +63,19 @@ class SubscriptionPageView(LoginRequiredMixin, View):
             "form": SubscriptionForm(request.POST),
             "subscriptions": [relationship_object for relationship_object in UserFollows.objects.filter(user=User.objects.get(pk=1))],
             "subscribers": self.followers,
+        }
+        return render(request, self.template_name, context)
+
+class PostsPageView(LoginRequiredMixin, View):
+    template_name = "reviews_webapp/posts.html"
+
+
+    def get(self, request):
+        username = request.user
+        user_id = request.user.id
+
+        context = {
+            "user": username,
+            "posts": Ticket.objects.filter(user=User.objects.get(pk=user_id)),
         }
         return render(request, self.template_name, context)
