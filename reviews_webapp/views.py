@@ -41,6 +41,10 @@ class PostsPageView(LoginRequiredMixin, View):
         }
         return render(request, self.template_name, context)
 
+    def post(self, request):
+        delete_post(request)
+        return self.get(request)
+
 
 class SubscriptionPageView(LoginRequiredMixin, View):
     """View for subscription page. Requires to be logged in."""
@@ -126,7 +130,11 @@ class TicketPageView(LoginRequiredMixin, View):
                 ticket.save()
             return self.get(request, ticket_id)
 
+import os
+from django.conf import settings
+
 def delete_post(request):
     id_to_delete = request.POST["post_id"]
     ticket_to_delete = Ticket.objects.get(pk=id_to_delete)
+    ticket_to_delete.image.delete(save=True)
     ticket_to_delete.delete()
