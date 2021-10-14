@@ -17,7 +17,7 @@ class SubscriptionForm(forms.Form):
         else:
             return True
 
-class NewTicketForm(ModelForm):
+class TicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']

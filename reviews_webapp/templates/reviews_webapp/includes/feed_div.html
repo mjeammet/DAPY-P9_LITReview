@@ -11,7 +11,7 @@
     <p style="text-align: right;">{{ post.time_created }}</p>
     <p style="text-align: left;">{{ post.title }}</p>
     <p style="text-align: left;">{{ post.description }}</p>
-    <img src="{{ post.image }}" alt="{{ post.title }}" width="150px">
+    <img src="/media/{{ post.image }}" alt="{{ post.title }}" width="150px">
     {% if post.user == user %}
     <p>        
         <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import NewTicketForm, SubscriptionForm
+from .forms import TicketForm, SubscriptionForm
 from .models import UserFollows
 from authentication.models import User
 from reviews_webapp.models import Ticket
@@ -24,9 +24,7 @@ class FeedPageView(LoginRequiredMixin, View):
         return render(request, 'reviews_webapp/feed.html', context)
 
     def post(self, request):
-        id_to_delete = request.POST["post_id"]
-        ticket_to_delete = Ticket.objects.get(pk=id_to_delete)
-        ticket_to_delete.delete()
+        delete_post(request)
         return self.get(request)
 
 
@@ -95,14 +93,14 @@ class TicketPageView(LoginRequiredMixin, View):
         if ticket_id == "new":
             context = {
                 'title': "Créer un ticket",
-                'form': NewTicketForm()
+                'form': TicketForm()
             }
             return render(request, self.template, context)
         else:
             ticket = Ticket.objects.get(pk=ticket_id)
             context = {
                 "title": "Modifier un ticket",
-                'form': NewTicketForm(
+                'form': TicketForm(
                     initial={
                         'title': ticket.title,
                         'description': ticket.description,
@@ -112,16 +110,23 @@ class TicketPageView(LoginRequiredMixin, View):
             return render(request, self.template, context)
 
     def post(self, request, ticket_id):
-        form = NewTicketForm(request.POST)
-        if form.is_valid():
-            if ticket_id == "new":
+        if ticket_id == "new":
+            form = TicketForm(request.POST, request.FILES)
+            if form.is_valid():
                 # TODO gérer l'ajout d'une image dans un ticket
-                new_ticket = Ticket(title=request.POST["title"], description=request.POST["description"], image=request.POST["image"], user=request.user)
-                new_ticket.save()
-            else:
-                ticket = Ticket.objects.get(pk=ticket_id)
-                ticket.title = request.POST["title"]
-                ticket.description = request.POST["description"]
-                ticket.image = request.POST["image"]
+                ticket = form.save(commit=False)
+                ticket.user = request.user
                 ticket.save()
-        return redirect('posts')
+                return redirect('posts')
+        else:
+            ticket = Ticket.objects.get(pk=ticket_id)
+            form = TicketForm(request.POST, request.FILES, instance = ticket)
+            if form.is_valid():
+                ticket = form.save(commit=False)
+                ticket.save()
+            return self.get(request, ticket_id)
+
+def delete_post(request):
+    id_to_delete = request.POST["post_id"]
+    ticket_to_delete = Ticket.objects.get(pk=id_to_delete)
+    ticket_to_delete.delete()
