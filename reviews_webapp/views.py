@@ -23,6 +23,12 @@ class FeedPageView(LoginRequiredMixin, View):
         }
         return render(request, 'reviews_webapp/feed.html', context)
 
+    def post(self, request):
+        id_to_delete = request.POST["post_id"]
+        ticket_to_delete = Ticket.objects.get(pk=id_to_delete)
+        ticket_to_delete.delete()
+        return self.get(request)
+
 
 class PostsPageView(LoginRequiredMixin, View):
     template_name = "reviews_webapp/my_posts.html"

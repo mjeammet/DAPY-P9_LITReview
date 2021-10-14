@@ -1,3 +1,6 @@
+{% load static %}
+<script src="{% static 'reviews_webapp/js/script.js' %}"></script>
+
 {% for post in posts %}
 <div style="border: 1px solid black">
     {% if post.user == user %}
@@ -10,9 +13,14 @@
     <p style="text-align: left;">{{ post.description }}</p>
     <img src="{{ post.image }}" alt="{{ post.title }}" width="150px">
     {% if post.user == user %}
-    <p>
-        <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
-        <button>Supprimer</button>
+    <p>        
+        <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
+        <form action=""  method="post">
+            {% csrf_token %}
+            <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
+            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
+            <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
+        </form>        
     </p>
     {% endif %}
 </div>
