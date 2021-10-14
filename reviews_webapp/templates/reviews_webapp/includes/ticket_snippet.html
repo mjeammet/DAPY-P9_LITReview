@@ -1,0 +1,22 @@
+<div class='post_box'>
+    {% if post.user == user %}
+        <h3>Vous avez publié un ticket</h3>
+    {% else %}
+        <h3>{{ post.user }} a publié un ticket</h3>
+    {% endif %}
+    <p style="text-align: right;">{{ post.time_created }}</p>
+    <p style="text-align: left;">{{ post.title }}</p>
+    <p style="text-align: left;">{{ post.description }}</p>
+    <img src="/media/{{ post.image }}" alt="{{ post.title }}" width="150px">
+    {% if post.user == user %}
+    <p>        
+        <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
+        <form action=""  method="post">
+            {% csrf_token %}
+            <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
+            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
+            <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
+        </form>        
+    </p>
+    {% endif %}
+</div>

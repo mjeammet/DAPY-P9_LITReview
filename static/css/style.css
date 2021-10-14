@@ -1,7 +1,9 @@
 .container{
-    height: 90%;
+    height: 90vh;
     border: 1px solid black;
     padding: 0px;
+    margin: 0px;
+    overflow-y: scroll;
 }
 
 .two-col-container {
@@ -31,4 +33,10 @@ a {
     width: 50%;
     margin:auto;
     text-align: center;
+}
+
+.post_box{
+    border: 1px solid black;
+    margin-bottom: 10px;
+    padding: 10px;
 }

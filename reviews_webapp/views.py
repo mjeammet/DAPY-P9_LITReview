@@ -1,12 +1,14 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import CharField, Value
+from itertools import chain
 
 from .forms import TicketForm, SubscriptionForm
 from .models import UserFollows
 from authentication.models import User
-from reviews_webapp.models import Ticket
+from reviews_webapp.models import Ticket, Review
+
 
 class FeedPageView(LoginRequiredMixin, View):
     
@@ -14,12 +16,11 @@ class FeedPageView(LoginRequiredMixin, View):
         username = request.user
         user_id = request.user.id
         subscriptions = [user.followed_user.id for user in UserFollows.objects.filter(user=1)]
-        subscriptions.append(user_id)
-        tickets = Ticket.objects.filter(user__id__in=subscriptions).order_by('-time_created')
+        subscriptions.append(user_id)        
 
         context = {
             "user": username,
-            "posts": tickets,
+            "posts": get_posts(subscriptions),
         }
         return render(request, 'reviews_webapp/feed.html', context)
 
@@ -37,7 +38,7 @@ class PostsPageView(LoginRequiredMixin, View):
 
         context = {
             "user": username,
-            "posts": Ticket.objects.filter(user__id=user_id).order_by('-time_created'),
+            "posts": get_posts([user_id]),
         }
         return render(request, self.template_name, context)
 
@@ -130,11 +131,23 @@ class TicketPageView(LoginRequiredMixin, View):
                 ticket.save()
             return self.get(request, ticket_id)
 
-import os
-from django.conf import settings
 
 def delete_post(request):
     id_to_delete = request.POST["post_id"]
     ticket_to_delete = Ticket.objects.get(pk=id_to_delete)
     ticket_to_delete.image.delete(save=True)
     ticket_to_delete.delete()
+
+def get_posts(users_to_display):
+    tickets = Ticket.objects.filter(user__id__in=users_to_display).order_by('-time_created')
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
+    reviews = Review.objects.filter(user__id__in=users_to_display).order_by('-time_created')
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+    posts = sorted(
+        chain(reviews, tickets),
+        key=lambda post:post.time_created,
+        reverse=True
+    )
+    return posts
