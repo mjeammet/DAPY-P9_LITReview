@@ -138,7 +138,7 @@ class PostPageView(LoginRequiredMixin, View):
     def get(self, request, post_id):
         if post_id == "new":
             context = {
-                'title': "Créer un ticket",
+                'title': "Ecrire une critique",
                 'ticket_form': TicketForm(),
                 'review_form': ReviewForm(),
             }
@@ -146,7 +146,7 @@ class PostPageView(LoginRequiredMixin, View):
         else:
             review = Review.objects.get(pk=post_id)
             context = {
-                "title": "Modifier un ticket",
+                "title": "Modifier une critique",
                 'ticket_form': TicketForm(),
                 'review_form': ReviewForm(
                     initial={
@@ -159,10 +159,13 @@ class PostPageView(LoginRequiredMixin, View):
 
     def post(self, request, post_id):
         if post_id == "new":
-            form = ReviewForm(request.POST, request.FILES)
-            if form.is_valid():
-                review = form.save(commit=False)
+            ticket_form = TicketForm(request.POST, request.FILES)
+            review_form = ReviewForm(request.POST)
+            if all(ticket_form.is_valid(), review_form.is_valid()):
+                ticket = ticket_form.save()                
+                review = review_form.save(commit=False)
                 review.user = request.user
+                review.ticket = ticket
                 review.save()
                 return redirect('posts')
         else:

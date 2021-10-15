@@ -11,6 +11,7 @@ class Ticket(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     time_created = models.DateTimeField(auto_now_add=True)
 
+
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
@@ -19,8 +20,7 @@ class Review(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     headline = models.CharField(max_length=128)
-    body = models.CharField(max_length=8192, blank=True)
-    
+    body = models.CharField(max_length=8192, blank=True)    
     time_created = models.DateTimeField(auto_now_add=True)
 
 

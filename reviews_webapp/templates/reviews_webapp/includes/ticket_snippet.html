@@ -8,15 +8,8 @@
     <p style="text-align: left;">{{ post.title }}</p>
     <p style="text-align: left;">{{ post.description }}</p>
     <img src="/media/{{ post.image }}" alt="{{ post.title }}" width="150px">
-    {% if post.user == user %}
+    <!-- if has review and request.url = feed ? -->
     <p>        
-        <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
-        <form action=""  method="post">
-            {% csrf_token %}
-            <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
-            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
-            <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
-        </form>        
+        <button>Créer une critique</button>
     </p>
-    {% endif %}
 </div>
