@@ -4,7 +4,7 @@
 <h1>Bonjour, {{ user }} !</h1>
 <p>
     <button><a href="{% url 'ticket' ticket_id='new' %}">Demander une critique</a></button>
-    <button>Créer une critique</button>
+    <button><a href="{% url 'review' post_id='new' %}">Créer une critique</a></button>
 </p>
 {% include 'reviews_webapp/includes/feed_div.html' %}
 {% endblock content %}

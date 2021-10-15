@@ -40,7 +40,7 @@ urlpatterns = [
     path('subscriptions/', reviews_webapp.views.SubscriptionPageView.as_view(), name='subscriptions'),
     path('posts/', reviews_webapp.views.PostsPageView.as_view(), name='posts'),
     path('ticket/<ticket_id>', reviews_webapp.views.TicketPageView.as_view(), name='ticket'),
-    # path('review/', reviews_webapp.views.NewReviewPageView.as_view(), name='review'),
+    path('review/<post_id>', reviews_webapp.views.PostPageView.as_view(), name='review'), 
 ]
 
 if settings.DEBUG:

@@ -4,7 +4,7 @@ from django.db.models.base import Model
 from django.forms import ModelForm
 
 from authentication.models import User
-from reviews_webapp.models import Ticket
+from reviews_webapp.models import Ticket, Review
 
 class SubscriptionForm(forms.Form):
     username = forms.CharField(max_length=30, initial='Nom d\'utilisateur', required=False)
@@ -21,4 +21,10 @@ class TicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']
+        # exclude = ["user", "time_created"]
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['headline', 'rating', 'body']
         # exclude = ["user", "time_created"]

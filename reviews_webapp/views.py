@@ -4,10 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import CharField, Value
 from itertools import chain
 
-from .forms import TicketForm, SubscriptionForm
-from .models import UserFollows
+from .forms import TicketForm, SubscriptionForm, ReviewForm
+from .models import UserFollows, Ticket, Review
 from authentication.models import User
-from reviews_webapp.models import Ticket, Review
 
 
 class FeedPageView(LoginRequiredMixin, View):
@@ -98,14 +97,14 @@ class TicketPageView(LoginRequiredMixin, View):
         if ticket_id == "new":
             context = {
                 'title': "Créer un ticket",
-                'form': TicketForm()
+                'ticket_form': TicketForm()
             }
             return render(request, self.template, context)
         else:
             ticket = Ticket.objects.get(pk=ticket_id)
             context = {
                 "title": "Modifier un ticket",
-                'form': TicketForm(
+                'ticket_form': TicketForm(
                     initial={
                         'title': ticket.title,
                         'description': ticket.description,
@@ -131,6 +130,48 @@ class TicketPageView(LoginRequiredMixin, View):
                 ticket.save()
             return self.get(request, ticket_id)
 
+
+class PostPageView(LoginRequiredMixin, View):
+    """A view to create or update tickets."""
+    template = 'reviews_webapp/ticket.html'
+
+    def get(self, request, post_id):
+        if post_id == "new":
+            context = {
+                'title': "Créer un ticket",
+                'ticket_form': TicketForm(),
+                'review_form': ReviewForm(),
+            }
+            return render(request, self.template, context)
+        else:
+            review = Review.objects.get(pk=post_id)
+            context = {
+                "title": "Modifier un ticket",
+                'ticket_form': TicketForm(),
+                'review_form': ReviewForm(
+                    initial={
+                        'title': review.title,
+                        'description': review.description,
+                        'image': review.image,
+                        })
+            }
+            return render(request, self.template, context)
+
+    def post(self, request, post_id):
+        if post_id == "new":
+            form = ReviewForm(request.POST, request.FILES)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.user = request.user
+                review.save()
+                return redirect('posts')
+        else:
+            review = Review.objects.get(pk=post_id)
+            form = ReviewForm(request.POST, request.FILES, instance = review)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.save()
+            return self.get(request, post_id)
 
 def delete_post(request):
     id_to_delete = request.POST["post_id"]

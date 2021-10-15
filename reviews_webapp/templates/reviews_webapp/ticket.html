@@ -3,7 +3,12 @@
 <h1>{{ title }}</h1>
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ review_form.as_p }}
+    <input type="submit">
+</form>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ ticket_form.as_p }}
     <input type="submit">
 </form>
 {% endblock content %}

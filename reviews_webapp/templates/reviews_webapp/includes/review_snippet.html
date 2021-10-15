@@ -12,8 +12,8 @@
         <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
         <form action=""  method="post">
             {% csrf_token %}
-            <button>Modifier</button>
-            <button>Supprimer</button>
+            <button><a href="{% url 'review' post_id=post.id %}"></a>Modifier</button>
+            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
             <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
         </form>        
     </p>

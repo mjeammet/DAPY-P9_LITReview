@@ -1,10 +1,13 @@
-.container{
-    height: 90vh;
-    border: 1px solid black;
+body{
     padding: 0px;
     margin: 0px;
-    overflow-y: scroll;
 }
+
+/* .container{
+    height: 90vh;
+    border: 1px solid black; 
+    overflow-y: scroll;
+}*/
 
 .two-col-container {
     display: inline-flex;
