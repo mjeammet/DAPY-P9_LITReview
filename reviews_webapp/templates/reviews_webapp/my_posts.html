@@ -9,10 +9,6 @@
         
     {% elif post.content_type == "REVIEW" %}
         {% include 'reviews_webapp/includes/review_snippet.html' with editable=True %}
-        <p>        
-            <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
-        
-        </p>
     {% endif %}
 
 {% endfor %}

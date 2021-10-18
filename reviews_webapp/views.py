@@ -117,7 +117,6 @@ class TicketPageView(LoginRequiredMixin, View):
         if ticket_id == "new":
             form = TicketForm(request.POST, request.FILES)
             if form.is_valid():
-                # TODO gérer l'ajout d'une image dans un ticket
                 ticket = form.save(commit=False)
                 ticket.user = request.user
                 ticket.save()
@@ -135,49 +134,61 @@ class ReviewPageView(LoginRequiredMixin, View):
     """A view to create or update tickets."""
     template = 'reviews_webapp/review_details.html'
 
+
     def get(self, request, ticket_id):
-        ticket = Ticket.objects.get(pk=ticket_id)
-        review = Review.objects.get(ticket__id=ticket_id)
-        if review == "new":
+        if ticket_id == 'new':
             context = {
-                'title': "Ecrire une critique",
-                'ticket_id': ticket_id,
-                # 'ticket_form': TicketForm(instance = ticket),
+                'title': "Créer une critique",
+                'ticket_form': TicketForm(),
                 'review_form': ReviewForm(),
             }
             return render(request, self.template, context)
-        else:
-            context = {
-                "title": "Modifier une critique",
-                'ticket': ticket,
-                # 'ticket_form': TicketForm(instance = ticket),
-                'review_form': ReviewForm(
-                    initial={
-                        'title': review.headline,
-                        'description': review.body,
-                        # 'image': review.image,
-                        })
-            }  
-            return render(request, self.template, context)
+        else: 
+            ticket = Ticket.objects.get(pk=ticket_id)
+            try:
+                review = Review.objects.get(ticket__id=ticket_id)
+                context = {
+                    'title': "Ecrire une critique",
+                    'ticket': ticket,
+                    'review_form': ReviewForm(instance = review),
+                }
+                return render(request, self.template, context)
+            except Review.DoesNotExist:
+                context = {
+                    "title": "Modifier une critique",
+                    'ticket': ticket,
+                    'review_form': ReviewForm()
+                }            
+                return render(request, self.template, context)
 
-    def post(self, request, ticked_id, review_id):
-        if review_id == "new":
-            ticket_form = TicketForm(request.POST, request.FILES)
-            review_form = ReviewForm(request.POST)
-            if all(ticket_form.is_valid(), review_form.is_valid()):
-                ticket = ticket_form.save()                
-                review = review_form.save(commit=False)
-                review.user = request.user
-                review.ticket = ticket
-                review.save()
-                return redirect('posts')
+    def post(self, request, ticket_id):
+        if ticket_id == 'new':
+            pass
         else:
-            review = Review.objects.get(pk=review_id)
-            form = ReviewForm(request.POST, request.FILES, instance = review)
-            if form.is_valid():
-                review = form.save(commit=False)
-                review.save()
-            return self.get(request, review_id)
+            # ticket = Ticket.objects.get(pk=ticket_id)
+            try: 
+                review = Review.objects.get(ticket__id=ticket_id)
+                form = ReviewForm(request.POST, request.FILES, instance = review)
+                if form.is_valid():
+                    form.save()
+                return self.get(request, ticket_id)
+            except Review.DoesNotExist:
+                form = ReviewForm(request.POST)
+                if form.is_valid():
+                    form.user = request.user
+                    form.save()
+                return self.get(request, ticket_id)
+
+
+            #     ticket_form = TicketForm(request.POST, request.FILES)
+            #     review_form = ReviewForm(request.POST)
+            #     if all(ticket_form.is_valid(), review_form.is_valid()):
+            #         ticket = ticket_form.save()                
+            #         review = review_form.save(commit=False)
+            #         review.user = request.user
+            #         review.ticket = ticket
+            #         review.save()
+            #         return redirect('posts')
 
 def delete_post(request):
     id_to_delete = request.POST["post_id"]

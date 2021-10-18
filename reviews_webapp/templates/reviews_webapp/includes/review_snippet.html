@@ -4,18 +4,19 @@
     {% else %}
         <h3>{{ post.user }} a publié une critique</h3>
     {% endif %}
-    <p style="text-align: left;">{{ post.headline }} - {{ post.rating }}</p>
+    <p style="text-align: left;">{{ post.headline }} - 
+        {% for item in "012345" %}
+            X
+        {% endfor %}
+    </p>
     <p style="text-align: right;">{{ post.time_created }}</p>    
     <p style="text-align: left;">{{ post.body }}</p>
 
     {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
 
     {% if editable %}
-        <form action=""  method="post">
-            {% csrf_token %}
-            <button><a href="{% url 'review' ticket_id=post.ticket.id %}"></a>Modifier</button>
-            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
-            <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
-        </form>
+        <button><a href="{% url 'review' ticket_id=post.ticket.id %}">Modifier</a></button>
+        <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
+        <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
     {% endif %}
 </div>

@@ -15,9 +15,10 @@
     {% if reviews_allowed %}
         <!-- if has review and request.url = feed ? -->
         <p>        
-            <button href="{% url 'review' ticket_id=post.id %}">Créer une critique</button>
+            <button><a href="{% url 'review' ticket_id=post.id %}">Créer une critique</a></button>
         </p>
     {% endif %}
+    
     {% if editable %}
     <!-- if has review and request.url = feed ? -->
     <form action=""  method="post">
