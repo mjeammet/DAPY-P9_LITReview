@@ -91,7 +91,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
 
 class TicketPageView(LoginRequiredMixin, View):
     """A view to create or update tickets."""
-    template = 'reviews_webapp/ticket.html'
+    template = 'reviews_webapp/post_details.html'
 
     def get(self, request, ticket_id):
         if ticket_id == "new":
@@ -131,34 +131,37 @@ class TicketPageView(LoginRequiredMixin, View):
             return self.get(request, ticket_id)
 
 
-class PostPageView(LoginRequiredMixin, View):
+class ReviewPageView(LoginRequiredMixin, View):
     """A view to create or update tickets."""
-    template = 'reviews_webapp/ticket.html'
+    template = 'reviews_webapp/review_details.html'
 
-    def get(self, request, post_id):
-        if post_id == "new":
+    def get(self, request, ticket_id):
+        ticket = Ticket.objects.get(pk=ticket_id)
+        review = Review.objects.get(ticket__id=ticket_id)
+        if review == "new":
             context = {
                 'title': "Ecrire une critique",
-                'ticket_form': TicketForm(),
+                'ticket_id': ticket_id,
+                # 'ticket_form': TicketForm(instance = ticket),
                 'review_form': ReviewForm(),
             }
             return render(request, self.template, context)
         else:
-            review = Review.objects.get(pk=post_id)
             context = {
                 "title": "Modifier une critique",
-                'ticket_form': TicketForm(),
+                'ticket': ticket,
+                # 'ticket_form': TicketForm(instance = ticket),
                 'review_form': ReviewForm(
                     initial={
-                        'title': review.title,
-                        'description': review.description,
-                        'image': review.image,
+                        'title': review.headline,
+                        'description': review.body,
+                        # 'image': review.image,
                         })
-            }
+            }  
             return render(request, self.template, context)
 
-    def post(self, request, post_id):
-        if post_id == "new":
+    def post(self, request, ticked_id, review_id):
+        if review_id == "new":
             ticket_form = TicketForm(request.POST, request.FILES)
             review_form = ReviewForm(request.POST)
             if all(ticket_form.is_valid(), review_form.is_valid()):
@@ -169,12 +172,12 @@ class PostPageView(LoginRequiredMixin, View):
                 review.save()
                 return redirect('posts')
         else:
-            review = Review.objects.get(pk=post_id)
+            review = Review.objects.get(pk=review_id)
             form = ReviewForm(request.POST, request.FILES, instance = review)
             if form.is_valid():
                 review = form.save(commit=False)
                 review.save()
-            return self.get(request, post_id)
+            return self.get(request, review_id)
 
 def delete_post(request):
     id_to_delete = request.POST["post_id"]

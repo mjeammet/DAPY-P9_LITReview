@@ -7,12 +7,15 @@
         {{ ticket_form.as_p }}
         <input type="submit">
     </form>
-</div>
-<div class="post_box">
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ review_form.as_p }}
-        <input type="submit">
-    </form>
-</div>
+</div> 
+{% if review_form %}
+    <div class="post_box">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <input type="submit">
+        </form>
+    </div>
+{% endif %}
+
 {% endblock content %}

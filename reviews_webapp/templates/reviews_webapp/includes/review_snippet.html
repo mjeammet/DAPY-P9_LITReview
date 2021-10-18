@@ -4,19 +4,18 @@
     {% else %}
         <h3>{{ post.user }} a publié une critique</h3>
     {% endif %}
-    <p style="text-align: right;">{{ post.time_created }}</p>
     <p style="text-align: left;">{{ post.headline }} - {{ post.rating }}</p>
+    <p style="text-align: right;">{{ post.time_created }}</p>    
     <p style="text-align: left;">{{ post.body }}</p>
 
-    <div class='post_box'>
-        {% if post.ticket.user == user %}
-            <p>Vous avez publié un ticket</p>
-        {% else %}
-            <p>{{ post.ticket.user }} a publié un ticket</p>
-        {% endif %}
-        <p style="text-align: right;">{{ post.ticket.time_created }}</p>
-        <p style="text-align: left;">{{ post.ticket.title }}</p>
-        <p style="text-align: left;">{{ post.ticket.description }}</p>
-        <img src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}" width="150px">
-    </div>    
+    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
+
+    {% if editable %}
+        <form action=""  method="post">
+            {% csrf_token %}
+            <button><a href="{% url 'review' ticket_id=post.ticket.id %}"></a>Modifier</button>
+            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
+            <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
+        </form>
+    {% endif %}
 </div>

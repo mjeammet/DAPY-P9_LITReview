@@ -4,24 +4,14 @@
 
 {% for post in posts %}
     {% if post.content_type == 'TICKET' %}
-        {% include 'reviews_webapp/includes/ticket_snippet.html' %}
+        {% include 'reviews_webapp/includes/ticket_snippet.html' with editable=True %}
         <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
-        <form action=""  method="post">
-            {% csrf_token %}
-            <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
-            <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
-            <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
-        </form>
+        
     {% elif post.content_type == "REVIEW" %}
-        {% include 'reviews_webapp/includes/review_snippet.html' %}
+        {% include 'reviews_webapp/includes/review_snippet.html' with editable=True %}
         <p>        
             <!-- <button onclick='ThrowConfirmationAlert("{{ request.path }}");'>Supprimer</button> -->
-            <form action=""  method="post">
-                {% csrf_token %}
-                <button><a href="{% url 'review' post_id=post.id %}"></a>Modifier</button>
-                <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
-                <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
-            </form>        
+        
         </p>
     {% endif %}
 

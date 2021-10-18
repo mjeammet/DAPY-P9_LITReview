@@ -1,15 +1,30 @@
 <div class='post_box'>
     {% if post.user == user %}
-        <h3>Vous avez publié un ticket</h3>
+        <h3>Vous avez demandé une critique</h3>
     {% else %}
-        <h3>{{ post.user }} a publié un ticket</h3>
+        <h3>{{ post.user }} a demandé une critique</h3>
     {% endif %}
-    <p style="text-align: right;">{{ post.time_created }}</p>
-    <p style="text-align: left;">{{ post.title }}</p>
-    <p style="text-align: left;">{{ post.description }}</p>
-    <img src="/media/{{ post.image }}" alt="{{ post.title }}" width="150px">
+    <div style="display: flex; width: 100%">
+        <img style="align-self: flex-start; padding: 20px;" src="/media/{{ post.image }}" alt="{{ post.title }}" width="200px">
+        <div style="width: 100%">
+            <p style="text-align: left;">{{ post.title }}</p>
+            <p style="text-align: right;">{{ post.time_created }}</p>
+            <p style="text-align: left;">{{ post.description }}</p>
+        </div>        
+    </div>
+    {% if reviews_allowed %}
+        <!-- if has review and request.url = feed ? -->
+        <p>        
+            <button href="{% url 'review' ticket_id=post.id %}">Créer une critique</button>
+        </p>
+    {% endif %}
+    {% if editable %}
     <!-- if has review and request.url = feed ? -->
-    <p>        
-        <button>Créer une critique</button>
-    </p>
+    <form action=""  method="post">
+        {% csrf_token %}
+        <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
+        <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
+        <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
+    </form>
+{% endif %}
 </div>

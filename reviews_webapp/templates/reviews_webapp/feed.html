@@ -4,11 +4,11 @@
 <h1>Bonjour, {{ user }} !</h1>
 <p>
     <button><a href="{% url 'ticket' ticket_id='new' %}">Demander une critique</a></button>
-    <button><a href="{% url 'review' post_id='new' %}">Créer une critique</a></button>
+    <button><a href="{% url 'review' ticket_id='new' %}">Créer une critique</a></button>
 </p>
 {% for post in posts %}
     {% if post.content_type == 'TICKET' %}
-        {% include 'reviews_webapp/includes/ticket_snippet.html' %}
+        {% include 'reviews_webapp/includes/ticket_snippet.html' with reviews_allowed=True %}
     {% elif post.content_type == "REVIEW" %}
         {% include 'reviews_webapp/includes/review_snippet.html' %}
     {% endif %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% if ticket == 'new' %}
+    <div class="post_box">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ ticket_form.as_p }}
+            <input type="submit">
+        </form>
+    </div>
+{% else %}
+    <div class="post_box">
+        Vous êtes en train de poster en réponse à
+        {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+    </div>
+{% endif %}
+
+{% if review_form %}
+    <div class="post_box">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <input type="submit">
+        </form>
+    </div>
+{% endif %}
+
+{% endblock content %}
