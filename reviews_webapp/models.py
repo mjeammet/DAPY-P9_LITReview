@@ -20,7 +20,7 @@ class Review(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     headline = models.CharField(max_length=128)
-    body = models.CharField(max_length=8192, blank=True)    
+    body = models.CharField(max_length=8192, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
 

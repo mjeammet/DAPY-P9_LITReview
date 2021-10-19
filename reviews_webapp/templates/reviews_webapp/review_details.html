@@ -1,18 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>{{ title }}</h1>
-{% if ticket_form %}
+
+{% if review_form and ticket %}
+<div class="post_box">
+    Vous êtes en train de poster en réponse à
+    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+</div>
+{% elif ticket and read_only %}
+    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+{% else %}
     <div class="post_box">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ ticket_form.as_p }}
             <input type="submit">
         </form>
-    </div>
-{% else %}
-    <div class="post_box">
-        Vous êtes en train de poster en réponse à
-        {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
     </div>
 {% endif %}
 

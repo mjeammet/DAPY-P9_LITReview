@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import CharField, Value
 from itertools import chain
@@ -22,10 +22,6 @@ class FeedPageView(LoginRequiredMixin, View):
             "posts": get_posts(subscriptions),
         }
         return render(request, 'reviews_webapp/feed.html', context)
-
-    def post(self, request):
-        delete_post(request)
-        return self.get(request)
 
 
 class PostsPageView(LoginRequiredMixin, View):
@@ -89,29 +85,29 @@ class SubscriptionPageView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class TicketPageView(LoginRequiredMixin, View):
+class TicketPageView(LoginRequiredMixin, DetailView):
     """A view to create or update tickets."""
-    template = 'reviews_webapp/post_details.html'
+    template = 'reviews_webapp/review_details.html'
 
     def get(self, request, ticket_id):
         if ticket_id == "new":
             context = {
                 'title': "Créer un ticket",
-                'ticket_form': TicketForm()
+                'ticket_form': TicketForm(),
             }
-            return render(request, self.template, context)
         else:
             ticket = Ticket.objects.get(pk=ticket_id)
-            context = {
-                "title": "Modifier un ticket",
-                'ticket_form': TicketForm(
-                    initial={
-                        'title': ticket.title,
-                        'description': ticket.description,
-                        'image': ticket.image,
-                        })
-            }
-            return render(request, self.template, context)
+            if ticket.user == request.user: 
+                context = {
+                    "title": "Modifier un ticket",
+                    'ticket_form': TicketForm(instance = ticket),
+                }
+            else:
+                context = {
+                    'read_only': False if ticket.user == request.user else True, 
+                    'ticket': ticket,
+                }
+        return render(request, self.template, context)
 
     def post(self, request, ticket_id):
         if ticket_id == "new":
@@ -120,20 +116,18 @@ class TicketPageView(LoginRequiredMixin, View):
                 ticket = form.save(commit=False)
                 ticket.user = request.user
                 ticket.save()
-                return redirect('posts')
         else:
             ticket = Ticket.objects.get(pk=ticket_id)
             form = TicketForm(request.POST, request.FILES, instance = ticket)
             if form.is_valid():
                 ticket = form.save(commit=False)
                 ticket.save()
-            return self.get(request, ticket_id)
+        return redirect('posts')
 
 
-class ReviewPageView(LoginRequiredMixin, View):
+class ReviewPageView(LoginRequiredMixin, DetailView):
     """A view to create or update tickets."""
     template = 'reviews_webapp/review_details.html'
-
 
     def get(self, request, ticket_id):
         if ticket_id == 'new':
@@ -165,30 +159,21 @@ class ReviewPageView(LoginRequiredMixin, View):
         if ticket_id == 'new':
             pass
         else:
-            # ticket = Ticket.objects.get(pk=ticket_id)
-            try: 
-                review = Review.objects.get(ticket__id=ticket_id)
-                form = ReviewForm(request.POST, request.FILES, instance = review)
+            review = Review.objects.filter(ticket__id=ticket_id)
+            if review.exists():
+                form = ReviewForm(request.POST, instance = review[0])
                 if form.is_valid():
-                    form.save()
+                    review = form.save(commit=True)
                 return self.get(request, ticket_id)
-            except Review.DoesNotExist:
+            else:
                 form = ReviewForm(request.POST)
                 if form.is_valid():
-                    form.user = request.user
-                    form.save()
+                    review = form.save(commit=False)
+                    review.user = request.user
+                    review.ticket = Ticket.objects.get(pk=ticket_id)
+                    review.save()
                 return self.get(request, ticket_id)
 
-
-            #     ticket_form = TicketForm(request.POST, request.FILES)
-            #     review_form = ReviewForm(request.POST)
-            #     if all(ticket_form.is_valid(), review_form.is_valid()):
-            #         ticket = ticket_form.save()                
-            #         review = review_form.save(commit=False)
-            #         review.user = request.user
-            #         review.ticket = ticket
-            #         review.save()
-            #         return redirect('posts')
 
 def delete_post(request):
     id_to_delete = request.POST["post_id"]
