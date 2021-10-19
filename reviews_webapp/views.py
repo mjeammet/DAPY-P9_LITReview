@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import CharField, Value
@@ -87,7 +87,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
 
 class TicketPageView(LoginRequiredMixin, DetailView):
     """A view to create or update tickets."""
-    template = 'reviews_webapp/review_details.html'
+    template = 'reviews_webapp/post_details.html'
 
     def get(self, request, ticket_id):
         if ticket_id == "new":
@@ -96,7 +96,7 @@ class TicketPageView(LoginRequiredMixin, DetailView):
                 'ticket_form': TicketForm(),
             }
         else:
-            ticket = Ticket.objects.get(pk=ticket_id)
+            ticket = get_object_or_404(Ticket, id=ticket_id)
             if ticket.user == request.user: 
                 context = {
                     "title": "Modifier un ticket",
@@ -127,7 +127,7 @@ class TicketPageView(LoginRequiredMixin, DetailView):
 
 class ReviewPageView(LoginRequiredMixin, DetailView):
     """A view to create or update tickets."""
-    template = 'reviews_webapp/review_details.html'
+    template = 'reviews_webapp/post_details.html'
 
     def get(self, request, ticket_id):
         if ticket_id == 'new':
@@ -157,7 +157,21 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
 
     def post(self, request, ticket_id):
         if ticket_id == 'new':
-            pass
+            ticket_form = TicketForm(request.POST, request.FILES)
+            review_form = ReviewForm(request.POST)
+            print('Ticket validation', ticket_form.is_valid())
+            print('Review validation', review_form.is_valid())
+            if ticket_form.is_valid() and review_form.is_valid():
+                print('\n\nCA RENTRE DANS CE CAS ?')
+                ticket = ticket_form.save(commit=False)
+                ticket.user = request.user
+                ticket.save()
+
+                review = review_form.save(commit=False)
+                review.user = request.user
+                review.ticket = ticket
+                review.save()
+            return redirect('posts')
         else:
             review = Review.objects.filter(ticket__id=ticket_id)
             if review.exists():

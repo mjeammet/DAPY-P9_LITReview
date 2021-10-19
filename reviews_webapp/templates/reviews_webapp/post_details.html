@@ -6,6 +6,13 @@
 <div class="post_box">
     Vous êtes en train de poster en réponse à
     {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+    <div class="post_box">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <input type="submit">
+        </form>
+    </div>
 </div>
 {% elif ticket and read_only %}
     {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
@@ -14,19 +21,14 @@
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ ticket_form.as_p }}
+        
+            {% if review_form %}
+                <hr>
+                {{ review_form.as_p }}
+            {% endif %}
             <input type="submit">
         </form>
-    </div>
-{% endif %}
-
-{% if review_form %}
-    <div class="post_box">
-        <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ review_form.as_p }}
-            <input type="submit">
-        </form>
-    </div>
+    </div>    
 {% endif %}
 
 {% endblock content %}
