@@ -3,8 +3,8 @@
 {% block content %}
 <h1>Bonjour, {{ user }} !</h1>
 <p>
-    <button><a href="{% url 'ticket' ticket_id='new' %}">Demander une critique</a></button>
-    <button><a href="{% url 'review' ticket_id='new' %}">Créer une critique</a></button>
+    <button><a href="{% url 'ticket' ticket_id=0 %}">Demander une critique</a></button>
+    <button><a href="{% url 'review' ticket_id=0 %}">Créer une critique</a></button>
 </p>
 {% for post in posts %}
     {% if post.content_type == 'TICKET' %}

@@ -90,12 +90,13 @@ class TicketPageView(LoginRequiredMixin, DetailView):
     template = 'reviews_webapp/post_details.html'
 
     def get(self, request, ticket_id):
-        if ticket_id == "new":
+        if ticket_id == "0":
             self.create(request)
             context = {
                 'title': "Créer un ticket",
                 'ticket_form': TicketForm(),
             }
+
         else:
             ticket = get_object_or_404(Ticket, id=ticket_id)
             if ticket.user == request.user: 
@@ -111,7 +112,7 @@ class TicketPageView(LoginRequiredMixin, DetailView):
         return render(request, self.template, context)
 
     def post(self, request, ticket_id):
-        if ticket_id == "new":
+        if ticket_id == "0":
             form = TicketForm(request.POST, request.FILES)
             if form.is_valid():
                 ticket = form.save(commit=False)
@@ -126,7 +127,7 @@ class TicketPageView(LoginRequiredMixin, DetailView):
         return redirect('posts')
 
     def create(self, request):
-        print("OK! ")
+        print("CREATION D'UN NOUVEAU TICKET !")
 
 
 class ReviewPageView(LoginRequiredMixin, DetailView):

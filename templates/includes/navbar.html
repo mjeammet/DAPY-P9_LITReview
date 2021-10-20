@@ -3,7 +3,8 @@
     <!-- <a href="{% url 'feed' %}"><img src="{% static 'img/LITReview_logo.png' %}" alt="LITReview_logo" width="50px"></a> -->
     <div style='text-align:center;'>
         {% if user.is_authenticated %}
-            <a href="{% url 'feed' %}">Flux</a>
+            <a href="{% url 'feed' %}"><i class="fa fa-home"></i></a>
+            <!-- <i src="{% static 'assets/icons/home.png' %}" alt=""></i> -->
             <a href="{% url 'posts' %}">Posts</a>
             <a href="{% url 'subscriptions' %}">Abonnements</a>
             <a href="{% url 'logout' %}">Se déconnecter</a>
