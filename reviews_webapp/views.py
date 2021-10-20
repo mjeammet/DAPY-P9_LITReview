@@ -91,6 +91,7 @@ class TicketPageView(LoginRequiredMixin, DetailView):
 
     def get(self, request, ticket_id):
         if ticket_id == "new":
+            self.create(request)
             context = {
                 'title': "Créer un ticket",
                 'ticket_form': TicketForm(),
@@ -123,6 +124,9 @@ class TicketPageView(LoginRequiredMixin, DetailView):
                 ticket = form.save(commit=False)
                 ticket.save()
         return redirect('posts')
+
+    def create(self, request):
+        print("OK! ")
 
 
 class ReviewPageView(LoginRequiredMixin, DetailView):
@@ -174,7 +178,7 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
             return redirect('posts')
         else:
             review = Review.objects.filter(ticket__id=ticket_id)
-            if review.exists():
+            if review:
                 form = ReviewForm(request.POST, instance = review[0])
                 if form.is_valid():
                     review = form.save(commit=True)

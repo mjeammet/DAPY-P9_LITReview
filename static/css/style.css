@@ -2,6 +2,7 @@ body{
     padding: 0px;
     margin: 0px;
     background-image: url('../assets/img/pexels-photo-1907785.jpeg');
+    font-size: 16px;
 }
 
 /* .container{
@@ -68,8 +69,9 @@ a {
 .post_box{
     border: 1px solid black;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 20px;
     background-color: beige;
+    border-radius: 5%;
 }
 
 h1 {

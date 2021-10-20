@@ -7,8 +7,11 @@
     <div style="display: flex; width: 100%">
         <img style="align-self: flex-start; padding: 20px;" src="/media/{{ post.image }}" alt="{{ post.title }}" width="200px">
         <div style="width: 100%">
-            <p style="text-align: left;">{{ post.title }}
-            <p class='post_timecreated'>{{ post.time_created }}</p>
+            <p>
+                <p style="text-align: left;">{{ post.title }} 
+                <p class='post_timecreated'>{{ post.time_created }}</p>
+            </p>
+            
             <p style="text-align: left;">{{ post.description }}</p>
         </div>
     </div>
