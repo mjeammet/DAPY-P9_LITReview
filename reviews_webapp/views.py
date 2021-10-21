@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import CharField, Value
 from itertools import chain
 
-from .forms import TicketForm, SubscriptionForm, ReviewForm
+from .forms import TicketForm, SubscriptionForm, ReviewForm, DeleteReviewForm
 from .models import UserFollows, Ticket, Review
 from authentication.models import User
 
@@ -34,11 +34,23 @@ class PostsPageView(LoginRequiredMixin, View):
         context = {
             "user": username,
             "posts": get_posts([user_id]),
+            "deletereview_form": DeleteReviewForm(),
+            "deleteticket_form": DeleteReviewForm(),
         }
         return render(request, self.template_name, context)
 
     def post(self, request):
-        delete_post(request)
+        if (request.POST.get("delete_form")):
+            delete_form = DeleteReviewForm(request.POST)
+            if delete_form.is_valid():
+                if 'ticket_id' in request.POST:
+                    post_id = request.POST['ticket_id']
+                    ticket = Ticket.objects.get(pk=post_id)
+                    ticket.delete()
+                elif 'review_id' in request.POST:
+                    post_id = request.POST['review_id']
+                    review = Review.objects.get(pk=post_id)
+                    review.delete()
         return self.get(request)
 
 
@@ -193,12 +205,6 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                     review.save()
                 return self.get(request, ticket_id)
 
-
-def delete_post(request):
-    id_to_delete = request.POST["post_id"]
-    ticket_to_delete = Ticket.objects.get(pk=id_to_delete)
-    ticket_to_delete.image.delete(save=True)
-    ticket_to_delete.delete()
 
 def get_posts(users_to_display):
     tickets = Ticket.objects.filter(user__id__in=users_to_display).order_by('-time_created')

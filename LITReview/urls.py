@@ -43,5 +43,7 @@ urlpatterns = [
     path('ticket/<ticket_id>/review/', reviews_webapp.views.ReviewPageView.as_view(), name='review'),  
 ]
 
+# handler404 = 'reviews_webapp.views.view_404'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

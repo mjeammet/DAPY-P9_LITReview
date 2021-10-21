@@ -1,22 +1,25 @@
 <div class='post_box'>
-    {% if post.user == user %}
+    <!-- {% if post.user == user %}
         <h3>Vous avez publié une critique</h3>
     {% else %}
         <h3>{{ post.user }} a publié une critique</h3>
-    {% endif %}
-    <p style="text-align: left;">{{ post.headline }} - 
+    {% endif %} -->
+    <h3 style="text-align: left;">{{ post.headline }} - 
         {% for item in "012345" %}
             X
         {% endfor %}
-    </p>
-    <p style="text-align: right;">{{ post.time_created }}</p>    
+    </h3>
+    <p class="post_timecreated">{{ post.time_created }}</p>    
     <p style="text-align: left;">{{ post.body }}</p>
 
     {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
 
     {% if editable %}
-        <button><a href="{% url 'review' ticket_id=post.ticket.id %}">Modifier</a></button>
-        <button type="submit" name="post_id" value="{{ post.id }}" >Supprimer</button>
-        <!-- <input type="submit" value="{{post.id}}" name="" id="{{post.id}}"> -->
+        <form method="post">
+            {% csrf_token %}
+            {{ deletereview_form }}
+            <button><a href="{% url 'review' ticket_id=post.ticket.id %}">Modifier</a></button>
+            <button type="submit" name="review_id" value="{{ post.id }}" >Supprimer</button>
+        </form>
     {% endif %}
 </div>

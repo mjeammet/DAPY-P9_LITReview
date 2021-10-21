@@ -25,6 +25,12 @@ body{
     margin: 10px;
 }
 
+.inside_container {
+    width: 70%;
+    margin:auto;
+    text-align: center;
+}
+
 /* HEADER // NAV  */
 
 nav {
@@ -60,18 +66,16 @@ a {
     text-decoration: none;
 }
 
-.inside_container {
-    width: 60%;
-    margin:auto;
-    text-align: center;
-}
-
 .post_box{
     border: 1px solid black;
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 30px;
     background-color: beige;
     border-radius: 5%;
+}
+
+.ticket_box{
+    /* margin: 15px; */
 }
 
 h1 {
@@ -86,4 +90,24 @@ h3 {
     size: 10px;
     color:#666666;
     text-align: right;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.ticket_img {
+    align-self: flex-start;
+    /* margin: 20px; */
+    border-radius: 5%;
+    max-width: 200px;
+}
+
+.bordered {
+    border: 1px solid black;
+}
+
+.ticket_text {
+    /* border: 1px solid black; */
+    width: 100%;
+    padding: 0px 15px;
+    text-align: left;
 }
