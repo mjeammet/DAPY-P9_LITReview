@@ -61,7 +61,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
 
     def get(self, request):
         user_id = request.user.id
-        subscriptions = [relationship_object for relationship_object in UserFollows.objects.filter(user=User.objects.get(pk=user_id))]
+        subscriptions = UserFollows.objects.filter(user=User.objects.get(pk=user_id)).order_by('id')
         followers = [relationship_object.user for relationship_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=user_id))]
 
         context = {
@@ -193,6 +193,8 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                 form = ReviewForm(request.POST, instance = review[0])
                 if form.is_valid():
                     review = form.save(commit=True)
+                else: 
+                    return render(request, self.template, {})
             else:
                 form = ReviewForm(request.POST)
                 if form.is_valid():

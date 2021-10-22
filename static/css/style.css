@@ -20,7 +20,7 @@ body{
 .two-col-container div {
     width: 59%;
     padding: 10px;
-    height: 500px;
+    /* height: 500px; */
     background-color: beige;
     margin: 10px;
 }
@@ -29,6 +29,7 @@ body{
     width: 70%;
     margin:auto;
     text-align: center;
+    min-height: 61vh;
 }
 
 /* HEADER // NAV  */
@@ -43,13 +44,14 @@ nav {
     background-color: #f6e491;
     font-size: 20px;
     justify-content: center;
-    height: 10vh;
+    /* height: 10vh; */
     box-sizing: border-box;
-    font-size: 35px;
+    font-size: 35px;    
+    padding: 2vh 0;
 }
 
 nav a{
-    padding: 20px;
+    padding: 5vw;    
 }
 
 footer{
@@ -67,16 +69,21 @@ a {
     text-decoration: none;
 }
 
-.post_box{
+/* BOXES */
+.box {
     border: 1px solid black;
-    margin-bottom: 10px;
-    padding: 30px;
     background-color: beige;
-    border-radius: 5%;
+    padding: 30px;
 }
 
-.ticket_box{
-    /* margin: 15px; */
+.follow_box {
+    margin: 40px 0px;
+    border-radius: 5% / 15%;
+}
+
+.post_box{
+    margin-bottom: 10px;    
+    border-radius: 15% 10% / 6% 20%;
 }
 
 h1 {
@@ -100,10 +107,6 @@ h3 {
     /* margin: 20px; */
     border-radius: 5%;
     max-width: 200px;
-}
-
-.bordered {
-    border: 1px solid black;
 }
 
 .ticket_text {
