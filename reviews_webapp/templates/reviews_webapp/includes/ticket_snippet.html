@@ -1,12 +1,17 @@
 <div class='post_box'>
-    <!-- {% if post.user == user %}
-        <h3>Vous avez demandé une critique</h3>
-    {% else %}
-        <h3>{{ post.user }} a demandé une critique</h3>
-    {% endif %} -->
+    <div>
+        <p class="post_timecreated" style="float: left;">
+            {% if post.user == user %}
+                Vous avez demandé une critique
+            {% else %}
+                {{ post.user }} a demandé une critique
+            {% endif %}
+        </p>
+        <p class="post_timecreated" style="float: right;">{{ post.time_created }}</p>
+    </div>
 
     <div style="display: flex; width: 100%">
-        {% if post.title %}
+        {% if post.image %}
             <img class="bordered ticket_img" src="/media/{{ post.image }}" alt="{{ post.title }}" width="200px">
         {% endif %}
         <div class="ticket_text">
@@ -16,7 +21,7 @@
             {% if reviews_allowed %}
                 <!-- if has review and request.url = feed ? -->
                 <p>        
-                    <button><a href="{% url 'review' ticket_id=post.id %}">Créer une critique</a></button>
+                    <button><a href="{% url 'review' ticket_id=post.id %}">Créer une critique <i class="fa fa-pen"></i></a></button>
                 </p>
             {% endif %}
         </div>

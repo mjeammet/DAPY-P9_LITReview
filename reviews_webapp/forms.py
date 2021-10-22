@@ -30,5 +30,5 @@ class ReviewForm(ModelForm):
         body = forms.CharField(widget=forms.Textarea) 
         # exclude = ["user", "time_created"]
 
-class DeleteReviewForm(forms.Form):
+class DeleteForm(forms.Form):
     delete_form = forms.BooleanField(widget=forms.HiddenInput, initial=True)

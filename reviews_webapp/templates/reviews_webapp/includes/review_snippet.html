@@ -1,15 +1,23 @@
 <div class='post_box'>
-    <!-- {% if post.user == user %}
-        <h3>Vous avez publié une critique</h3>
-    {% else %}
-        <h3>{{ post.user }} a publié une critique</h3>
-    {% endif %} -->
-    <h3 style="text-align: left;">{{ post.headline }} - 
+    <div>
+        <p class="post_timecreated" style="float:left;">
+            {% if post.user == user %}
+                Vous avez publié une critique
+            {% else %}
+                {{ post.user }} a publié une critique
+            {% endif %}
+        </p>
+        <p class="post_timecreated" style="float:right;">{{ post.time_created }}</p>
+    </div>
+
+    <h3 style="clear: both; text-align: left; margin-top: 0px; padding-top:0px">{{ post.headline }} - 
         {% for item in "012345" %}
-            X
+            {% if forloop.counter <= post.rating %}
+                <i class="fa fa-star"></i>
+            {% endif %}
         {% endfor %}
     </h3>
-    <p class="post_timecreated">{{ post.time_created }}</p>    
+       
     <p style="text-align: left;">{{ post.body }}</p>
 
     {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
