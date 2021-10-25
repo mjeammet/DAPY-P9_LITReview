@@ -11,8 +11,9 @@
                 {% csrf_token %}
                 {{ form.username.errors }}
                 {{ form.username }}
-                <input type="submit"/>
+                <input type="submit"/>                
             </form>
+            <p class="error_message">{{ error_message }}</p>
         </p>
         <table style="width: 100%;">
             {% for relationship in subscriptions %}

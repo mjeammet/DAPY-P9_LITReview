@@ -1,5 +1,5 @@
 <div class='box post_box'>
-    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
+    
     <div>
         <p class="post_timecreated" style="float:left;">
             {% if post.user == user %}
@@ -21,7 +21,7 @@
        
     <p style="text-align: left;">{{ post.body }}</p>
 
-
+    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
 
     {% if editable %}
         <form method="post">

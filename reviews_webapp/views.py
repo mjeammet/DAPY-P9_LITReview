@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import CharField, Value
+from django.db import IntegrityError
 from itertools import chain
 
 from .forms import TicketForm, SubscriptionForm, ReviewForm, DeleteForm
@@ -59,7 +60,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
     template_name = "reviews_webapp/subscriptions.html"
     sub_form = SubscriptionForm()
 
-    def get(self, request):
+    def get(self, request, error_message=""):
         user_id = request.user.id
         subscriptions = UserFollows.objects.filter(user=User.objects.get(pk=user_id)).order_by('id')
         followers = [relationship_object.user for relationship_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=user_id))]
@@ -69,6 +70,8 @@ class SubscriptionPageView(LoginRequiredMixin, View):
             "subscriptions": subscriptions,
             "subscribers": followers,
         }
+        if error_message != "":
+            context["error_message"] = error_message
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -77,27 +80,40 @@ class SubscriptionPageView(LoginRequiredMixin, View):
         loggedin_user = User.objects.filter(username=loggedin_username)[0]
 
         if (request.POST.get("username")):
-            added_username = request.POST["username"]
+            subscription_form = SubscriptionForm(request.POST)
 
-            # TODO verify form is valid 
-            # AKA user exists and relationship doesnt't exist
-            print(self.sub_form.is_valid())
+            if subscription_form.is_valid():
+                added_user = request.POST["username"]
+                # TODO verify form is valid 
+                # AKA user exists and relationship doesnt't exist
 
-            if len(User.objects.filter(username=added_username)) == 1 and added_username != loggedin_user:
-                new_relationship = UserFollows(user=loggedin_user, followed_user=User.objects.filter(username=added_username)[0])
-                new_relationship.save()
+                try:
+                    new_subscription = User.objects.get(username=added_user)
+                    if added_user != loggedin_user.username:
+                        new_relationship = UserFollows(user=loggedin_user, followed_user=new_subscription)
+                        new_relationship.save()
+                    else:
+                        return self.get(request, error_message="C'est vous ! ;)")
+                except IntegrityError:
+                    return self.get(request, error_message=f"{added_user} déjà suivi.e !")
+                except User.DoesNotExist :
+                    return self.get(request, error_message=f"Utilisateur '{added_user}' inconnu ! ")
+                except Exception as exception:
+                    raise(exception)
             
-        elif (request.POST.get("unsubscribe_id")):
+        elif request.POST.get("unsubscribe_id"):
+            # id_to_remove = DeleteForm(request.POST)
             id_to_remove = request.POST["unsubscribe_id"]
             relationship_to_delete = UserFollows.objects.get(pk=id_to_remove)
             relationship_to_delete.delete()
 
-        context = {
-            "form": SubscriptionForm(request.POST),
-            "subscriptions": [relationship_object for relationship_object in UserFollows.objects.filter(user=User.objects.get(pk=user_id))],
-            "subscribers": self.followers,
-        }
-        return render(request, self.template_name, context)
+        # context = {
+        #     "form": SubscriptionForm(request.POST),
+        #     "subscriptions": [relationship_object for relationship_object in UserFollows.objects.filter(user=User.objects.get(pk=user_id))],
+        #     "subscribers": [relationship_object.user for relationship_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=user_id))],
+        # }
+        # return render(request, self.template_name, context)
+        return self.get(request)
 
 
 class TicketPageView(LoginRequiredMixin, DetailView):
@@ -213,7 +229,8 @@ def get_posts(users_to_display):
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
 
     tickets_ids = [ticket.id for ticket in tickets]
-    response_reviews = Review.objects.filter(ticket__id__in=tickets_ids)
+    # response by users which are not followed 
+    response_reviews = Review.objects.filter(ticket__id__in=tickets_ids).exclude(user__id__in=users_to_display)
     response_reviews = response_reviews.annotate(content_type=Value('REVIEW', CharField()))
 
     posts = sorted(
