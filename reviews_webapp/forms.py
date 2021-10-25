@@ -24,10 +24,10 @@ class TicketForm(ModelForm):
         # exclude = ["user", "time_created"]
 
 class ReviewForm(ModelForm):
+    rating = forms.ChoiceField(widget=forms.RadioSelect, choices=[(note,note) for note in range(1,6)])
     class Meta:
         model = Review
         fields = ['headline', 'rating', 'body']
-        body = forms.CharField(widget=forms.Textarea) 
         # exclude = ["user", "time_created"]
 
 class DeleteForm(forms.Form):

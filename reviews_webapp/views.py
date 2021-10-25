@@ -34,7 +34,7 @@ class PostsPageView(LoginRequiredMixin, View):
 
         context = {
             "user": username,
-            "posts": get_posts([user_id]),
+            "posts": get_posts([user_id], owned_only=True),
             "deletereview_form": DeleteForm(),
             "deleteticket_form": DeleteForm(),
         }
@@ -77,16 +77,13 @@ class SubscriptionPageView(LoginRequiredMixin, View):
     def post(self, request):
         user_id = request.user.id
         loggedin_username = request.user
-        loggedin_user = User.objects.filter(username=loggedin_username)[0]
+        loggedin_user = User.objects.get(username=loggedin_username)
 
         if (request.POST.get("username")):
             subscription_form = SubscriptionForm(request.POST)
 
             if subscription_form.is_valid():
                 added_user = request.POST["username"]
-                # TODO verify form is valid 
-                # AKA user exists and relationship doesnt't exist
-
                 try:
                     new_subscription = User.objects.get(username=added_user)
                     if added_user != loggedin_user.username:
@@ -161,7 +158,7 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
     template = 'reviews_webapp/post_details.html'
 
     def get(self, request, ticket_id):
-        if ticket_id == 'new':
+        if ticket_id == '0':
             context = {
                 'title': "Créer une critique",
                 'ticket_form': TicketForm(),
@@ -170,15 +167,15 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
             return render(request, self.template, context)
         else: 
             ticket = Ticket.objects.get(pk=ticket_id)
-            try:
-                review = Review.objects.get(ticket__id=ticket_id)
+            review = Review.objects.filter(ticket__id=ticket_id)
+            if review:
                 context = {
                     'title': "Ecrire une critique",
                     'ticket': ticket,
-                    'review_form': ReviewForm(instance = review),
+                    'review_form': ReviewForm(instance = review[0]),
                 }
                 return render(request, self.template, context)
-            except Review.DoesNotExist:
+            else:
                 context = {
                     "title": "Modifier une critique",
                     'ticket': ticket,
@@ -187,7 +184,7 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                 return render(request, self.template, context)
 
     def post(self, request, ticket_id):
-        if ticket_id == 'new':
+        if ticket_id == '0':
             ticket_form = TicketForm(request.POST, request.FILES)
             review_form = ReviewForm(request.POST)
             print('Ticket validation', ticket_form.is_valid())
@@ -210,7 +207,7 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                 if form.is_valid():
                     review = form.save(commit=True)
                 else: 
-                    return render(request, self.template, {})
+                    return self.get(request, ticket_id)
             else:
                 form = ReviewForm(request.POST)
                 if form.is_valid():
@@ -221,17 +218,20 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
             return redirect('posts')
 
 
-def get_posts(users_to_display):
+def get_posts(users_to_display, owned_only=False):
     tickets = Ticket.objects.filter(user__id__in=users_to_display).order_by('-time_created')
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
 
     reviews = Review.objects.filter(user__id__in=users_to_display).order_by('-time_created')
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
 
-    tickets_ids = [ticket.id for ticket in tickets]
-    # response by users which are not followed 
-    response_reviews = Review.objects.filter(ticket__id__in=tickets_ids).exclude(user__id__in=users_to_display)
-    response_reviews = response_reviews.annotate(content_type=Value('REVIEW', CharField()))
+    if not owned_only:
+        tickets_ids = [ticket.id for ticket in tickets]
+        # response by users which are not followed 
+        response_reviews = Review.objects.filter(ticket__id__in=tickets_ids).exclude(user__id__in=users_to_display)
+        response_reviews = response_reviews.annotate(content_type=Value('REVIEW', CharField()))
+    else:
+        response_reviews = ""
 
     posts = sorted(
         chain(tickets, reviews, response_reviews),

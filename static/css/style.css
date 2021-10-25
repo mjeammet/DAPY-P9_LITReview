@@ -101,6 +101,7 @@ h3 {
     text-align: right;
     margin: 5px;
     padding: 0px;
+    float: right;
 }
 
 .ticket_img {
@@ -108,6 +109,7 @@ h3 {
     /* margin: 20px; */
     border-radius: 5%;
     max-width: 200px;
+    border: 1px solid black;
 }
 
 .ticket_text {
@@ -119,4 +121,13 @@ h3 {
 
 .error_message {
     color: darkorange;
+}
+
+.fa.fa-star {
+    /* font-family: 'Font Awesome 5 Free'; */
+    color: black;
+}
+
+.fa-star :hover{
+    color: gold;
 }

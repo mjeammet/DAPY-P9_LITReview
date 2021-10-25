@@ -7,18 +7,21 @@
                 {{ post.user }} a demandé une critique
             {% endif %}
         </p>
-        <p class="post_timecreated" style="float: right;">{{ post.time_created }}</p>
+        <p class="post_timecreated">{{ post.time_created }}</p>
     </div>
 
     <div style="display: flex; width: 100%">
         {% if post.image %}
-            <img class="bordered ticket_img" src="/media/{{ post.image }}" alt="{{ post.title }}" width="200px">
+            <img class="ticket_img" src="/media/{{ post.image }}" alt="{{ post.title }}" width="200px">
         {% endif %}
         <div class="ticket_text">
             <h3>{{ post.title }} </h3>        
             <p>{{ post.description }}</p>
-            {% if reviews_allowed %}
+
+            {% if post.has_review %}
+                <button><a href="{% url 'review' ticket_id=post.id %}">Lire la critique de {{ post.has_review.user }}<i class="fa fa-pen"></i></a></button>
                 <!-- if has review and request.url = feed ? -->
+            {% else %}
                 <p>        
                     <button><a href="{% url 'review' ticket_id=post.id %}">Créer une critique <i class="fa fa-pen"></i></a></button>
                 </p>
