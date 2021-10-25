@@ -18,19 +18,17 @@
             <h3>{{ post.title }} </h3>        
             <p>{{ post.description }}</p>
 
-            {% if post.has_review %}
-                <button><a href="{% url 'review' ticket_id=post.id %}">Lire la critique de {{ post.has_review.user }}<i class="fa fa-pen"></i></a></button>
-                <!-- if has review and request.url = feed ? -->
-            {% else %}
-                <p>        
-                    <button><a href="{% url 'review' ticket_id=post.id %}">Créer une critique <i class="fa fa-pen"></i></a></button>
-                </p>
+            {% if request.path_info == "/feed" %}
+                {% if post.has_review %}
+                    <button><a href="{% url 'review' ticket_id=post.id %}">Lire la critique de {{ post.has_review.user }}</a></button>
+                {% else %}
+                    <button><i class="fa fa-pencil" style="font-size: 16px;"><a href="{% url 'review' ticket_id=post.id %}"> Ecrire une critique </a></i></button>
+                {% endif %}
             {% endif %}
         </div>
     </div>
 
     {% if editable %}
-        <!-- if has review and request.url = feed ? -->
         <form action=""  method="post">
             {% csrf_token %}
             {{ deleteticket_form }}

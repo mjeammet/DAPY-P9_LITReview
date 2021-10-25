@@ -18,6 +18,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, redirect_to_login
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import handler404, handler500, handler403, handler400
 
 import authentication.views
 import reviews_webapp.views
@@ -43,7 +44,8 @@ urlpatterns = [
     path('ticket/<ticket_id>/review/', reviews_webapp.views.ReviewPageView.as_view(), name='review'),  
 ]
 
-# handler404 = 'reviews_webapp.views.view_404'
+# handler404 = 'myapp.views.page_not_found_view'
+# handler404 = reviews_webapp.views.page_not_found_view
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

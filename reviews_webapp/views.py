@@ -19,7 +19,7 @@ class FeedPageView(LoginRequiredMixin, View):
         subscriptions.append(user_id)
 
         context = {
-            "user": username,
+            # "user": username,
             "posts": get_posts(subscriptions),
         }
         return render(request, 'reviews_webapp/feed.html', context)
@@ -216,6 +216,10 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                     review.ticket = Ticket.objects.get(pk=ticket_id)
                     review.save()
             return redirect('posts')
+
+
+def page_not_found_view(request, *args, **kwargs):
+    return render(request, "reviews_webapp/404.html", {})
 
 
 def get_posts(users_to_display, owned_only=False):
