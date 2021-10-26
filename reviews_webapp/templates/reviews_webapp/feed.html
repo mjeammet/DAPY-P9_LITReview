@@ -3,8 +3,10 @@
 {% block content %}
 <h1>Bonjour, {{ user }} !</h1>
 <p>
-    <button><a href="{% url 'ticket' ticket_id=0 %}">Demander une critique</a></button>
-    <button><a href="{% url 'review' ticket_id=0 %}">Créer une critique</a></button>
+    <i class="fas fa-receipt"></i>
+    <i class="fas fa-pen-fancy"></i>
+    <button><a href="{% url 'ticket' ticket_id=0 %}">Demander<br>une critique</a></button>
+    <button><a href="{% url 'review' ticket_id=0 %}">Créer<br>une critique</a></button>
 </p>
 {% for post in posts %}
     {% if post.content_type == 'TICKET' %}
