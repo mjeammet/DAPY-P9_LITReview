@@ -14,15 +14,16 @@ body{
 .two-col-container {
     display: inline-flex;
     align-items: center;
-    padding: 10px;
+    min-height: 61vh;
 }
 
 .two-col-container div {
-    width: 59%;
     padding: 10px;
-    /* height: 500px; */
-    background-color: beige;
+    /* background-color: beige; */
     margin: 10px;
+    min-height: 35vh;
+    min-width: 20vw;
+    justify-content: center;
 }
 
 .inside_container {
@@ -87,12 +88,17 @@ a {
 }
 
 h1 {
-    margin-top: 30px;
-    color: beige; 
+    margin: 30px 0px;
+    color: beige;
+    font-size: 50px;
 }
 
 h3 {
     size: 22px;
+}
+
+p{
+    font-size: 16px;
 }
 
 .post_timecreated {
@@ -141,4 +147,9 @@ button {
 
 button a{
     text-decoration: none;
+}
+
+.img-404{
+    border-radius: 15%;
+    border-color: darkorange;
 }

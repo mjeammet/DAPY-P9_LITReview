@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-<div style="height: 80vh">
-    <h1>You lost, mate ? </h1>
+<div class="two-col-container" style="height: 80vh;">
+    <img class="img-404" src="{% static 'assets/img/404_empty_shelves.jpg' %}" alt="" width="400px">
+    <div style="color: white;" >
+    <!-- <div class="box post_box"> -->
+        <h1> Oops ! </h1>
+        <h2> 404 not found</h2>
+        <p>You've stumbled upon empty shelves! Ain't it the saddest view? <i class="fa fa-heart-broken"></i> <br>
+        Shed a tear and move on, mate ! Like ... <br>
+        <p style="font-size:30px;"><a style="color:white;" href="{% url 'feed' %}">to the feed </a>!</p>
+    </div>  
 </div>
 
 {% endblock content %}

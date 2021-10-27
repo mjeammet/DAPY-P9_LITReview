@@ -44,7 +44,6 @@ urlpatterns = [
     path('ticket/<ticket_id>/review/', reviews_webapp.views.ReviewPageView.as_view(), name='review'),  
 ]
 
-# handler404 = 'myapp.views.page_not_found_view'
 # handler404 = reviews_webapp.views.page_not_found_view
 
 if settings.DEBUG:

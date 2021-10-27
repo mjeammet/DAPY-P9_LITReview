@@ -4,7 +4,6 @@
     <div style='text-align:center;'>
         {% if user.is_authenticated %}
             <a href="{% url 'feed' %}"><i class="fa fa-home"> Home</i></a>
-            <!-- <i src="{% static 'assets/icons/home.png' %}" alt=""></i> -->
             <a href="{% url 'posts' %}"><i class="fa fa-edit"> Posts</i></a>
             <a href="{% url 'subscriptions' %}"><i class="fa fa-users"> Subscriptions</i></a> 
             <!-- fa-people-arrows -->

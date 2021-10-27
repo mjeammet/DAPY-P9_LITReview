@@ -3,11 +3,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="two-col-container">
-    <div>
+    <div class="box post_box">
         <p>Inscrivez-vous maintenant</p>
         <button onclick="window.location.href={% url 'signup' %}">S'inscrire</button>
     </div>
-    <div>
+    <div class="box post_box">
         <p>Connectez-vous</p>
         <p>{{ message }}</p>
 

@@ -2,17 +2,21 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<h2>Inscrivez-vous</h2>
-{% if form.errors %}
-    {{ form.errors }}
-{% endif %}
-<form method="post">
-    {{ form.as_table }}
-    {% csrf_token %}
-    <button >S’inscrire</button>
-</form>
-<p>
-    <button onclick="window.location.href='/'">Retourner</button>
-    <button type="submit">S'inscrire</button>
-</p>
+<div class="inside_container">
+    <div class="box post_box">
+        <h2>Inscrivez-vous</h2>
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+        <form method="post">
+            {{ form.as_table }}
+            {% csrf_token %}
+            <button >S’inscrire</button>
+        </form>
+        <p>
+            <button onclick="window.location.href='/'">Retourner</button>
+            <button type="submit">S'inscrire</button>
+        </p>
+    </div>
+</div>
 {% endblock content %}
