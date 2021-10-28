@@ -2,21 +2,17 @@
 
 # LITReview
 
+## 1 - Introduction
+
+Django app to ask and post book and articles reviews. 
+
 Marie Jeammet - 2021/10
-
-Menu: 
-1. Introduction
-2. Installation 
-3. Usage
-4. flake8
-
-## Introduction
 
 Programming languages : Python 3.
 Framework: Django 3.
 Database: SQLite3 
 
-## Installation
+## 2 - Installation
 
 - Clone the repository 
 `git clone https://github.com/mjeammet/OCP9_LITReview.git`
@@ -26,7 +22,7 @@ Database: SQLite3
 `source env/bin/activate`
 `pip install -r requirements.txt`
 
-## Usage
+## 3 - Usage
 
 From the root repo
 `source env/bin/activate`
@@ -40,7 +36,7 @@ To log in with an pre-generated user:
 username: juno
 password: -
 
-## flake8
+## 4 - flake8
 
 This repo contains a folder dedicated to flake8 report. The index file shows no flake8 violations.
 
