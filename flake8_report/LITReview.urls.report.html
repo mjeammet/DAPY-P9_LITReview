@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: LITReview/urls.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-1"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="LITReview.urls.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               LITReview/urls.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="F401">
+               <span class="count sev-1">
+                  5
+               </span>
+               <strong>F401:</strong> 'django.contrib.auth.views.redirect_to_login' imported but unused
+               
+                  (and 4 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>'django.contrib.auth.views.redirect_to_login' imported but unused:</p>
+               
+               <a href="LITReview.urls.source.html#l18">
+                  <tt><i>18</i> <span class="kn">from</span> <span class="nn">django.contrib.auth.views</span> <span class="kn">import</span> <span class="n">LoginView</span><span class="p">,</span> <span class="n">LogoutView</span><span class="p">,</span> <span class="n">PasswordChangeView</span><span class="p">,</span> <span class="n">PasswordChangeDoneView</span><span class="p">,</span> <span class="n">redirect_to_login</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'django.conf.urls.handler400' imported but unused:</p>
+               
+               <a href="LITReview.urls.source.html#l21">
+                  <tt><i>21</i> <span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">handler404</span><span class="p">,</span> <span class="n">handler500</span><span class="p">,</span> <span class="n">handler403</span><span class="p">,</span> <span class="n">handler400</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'django.conf.urls.handler403' imported but unused:</p>
+               
+               <a href="LITReview.urls.source.html#l21">
+                  <tt><i>21</i> <span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">handler404</span><span class="p">,</span> <span class="n">handler500</span><span class="p">,</span> <span class="n">handler403</span><span class="p">,</span> <span class="n">handler400</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'django.conf.urls.handler404' imported but unused:</p>
+               
+               <a href="LITReview.urls.source.html#l21">
+                  <tt><i>21</i> <span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">handler404</span><span class="p">,</span> <span class="n">handler500</span><span class="p">,</span> <span class="n">handler403</span><span class="p">,</span> <span class="n">handler400</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'django.conf.urls.handler500' imported but unused:</p>
+               
+               <a href="LITReview.urls.source.html#l21">
+                  <tt><i>21</i> <span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">handler404</span><span class="p">,</span> <span class="n">handler500</span><span class="p">,</span> <span class="n">handler403</span><span class="p">,</span> <span class="n">handler400</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E251">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E251:</strong> unexpected spaces around keyword / parameter equals
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Unexpected spaces around keyword / parameter equals (in 2 places):</p>
+               
+               <a href="LITReview.urls.source.html#l34">
+                  <tt><i>34</i>         <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;authentication/password_change.html&#39;</span><span class="p">),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W291">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>W291:</strong> trailing whitespace
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="LITReview.urls.source.html#l30">
+                  <tt><i>30</i>         <span class="n">redirect_authenticated_user</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="LITReview.urls.source.html#l44">
+                  <tt><i>44</i>     <span class="n">path</span><span class="p">(</span><span class="s1">&#39;ticket/&lt;ticket_id&gt;/review/&#39;</span><span class="p">,</span> <span class="n">reviews_webapp</span><span class="o">.</span><span class="n">views</span><span class="o">.</span><span class="n">ReviewPageView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;review&#39;</span><span class="p">),</span>  </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E501">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E501:</strong> line too long (122 > 119 characters)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="LITReview.urls.source.html#l18">
+                  <tt><i>18</i> <span class="kn">from</span> <span class="nn">django.contrib.auth.views</span> <span class="kn">import</span> <span class="n">LoginView</span><span class="p">,</span> <span class="n">LogoutView</span><span class="p">,</span> <span class="n">PasswordChangeView</span><span class="p">,</span> <span class="n">PasswordChangeDoneView</span><span class="p">,</span> <span class="n">redirect_to_login</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W292">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>W292:</strong> no newline at end of file
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="LITReview.urls.source.html#l50">
+                  <tt><i>50</i>     <span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

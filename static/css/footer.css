@@ -25,7 +25,7 @@
 /* Footer left */
 
 .footer-distributed .footer-left{
-	width: 30%;
+	/* width: 20%; */
 	margin-left: 30px;
 }
 
@@ -67,7 +67,7 @@
 /* Footer Center */
 
 .footer-distributed .footer-center{
-	width: 35%;
+	width: 20%;
 }
 
 .footer-distributed .footer-center i{
@@ -145,7 +145,8 @@
 }
 
 .footer-distributed .footer-icons{
-	margin-top: 25px;
+	margin-bottom: 10px;
+	text-align: center;
 }
 
 .footer-distributed .footer-icons a{
@@ -153,16 +154,14 @@
 	width: 35px;
 	height: 35px;
 	cursor: pointer;
-	background-color:  #33383b;
+	/* background-color:  #33383b; */
 	border-radius: 2px;
 
-	font-size: 20px;
-	color: #ffffff;
+	font-size: 30px;
+	color: black;
 	text-align: center;
 	line-height: 35px;
-
-	margin-right: 3px;
-	margin-bottom: 5px;
+	margin: 5px 20px;
 }
 
 /* If you don't want the footer to be responsive, remove these media queries */
