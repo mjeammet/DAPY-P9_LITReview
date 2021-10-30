@@ -34,9 +34,9 @@
     <div class="box follow_box">
         <h3>Abonnés</h3>
         <table style="width: 100%;">
-            {% for user in subscribers %}
+            {% for relationship in subscribers %}
             <tr>
-                <td style="border: 1px solid black">{{ user }}</td>
+                <td style="border: 1px solid black">{{ relationship.user }}</td>
             </tr>
             {% endfor %}
         </table>

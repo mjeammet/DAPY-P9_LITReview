@@ -11,7 +11,7 @@ from authentication.models import User
 
 
 class FeedPageView(LoginRequiredMixin, View):
-    
+
     def get(self, request):
         # username = request.user
         user_id = request.user.id
@@ -61,9 +61,11 @@ class SubscriptionPageView(LoginRequiredMixin, View):
     sub_form = SubscriptionForm()
 
     def get(self, request, error_message=""):
-        user_id = request.user.id
-        subscriptions = UserFollows.objects.filter(user=User.objects.get(pk=user_id)).order_by('id')
-        followers = [relationship_object.user for relationship_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=user_id))]
+        logged_in_user = request.user
+        # subscriptions = UserFollows.objects.filter(user=logged_in_user).order_by('id')
+        subscriptions = logged_in_user.following.all().order_by('id')
+        # followers = UserFollows.objects.filter(followed_user=User.objects.get(pk=user_id)).order_by('id')
+        followers = logged_in_user.followed_by.all()
 
         context = {
             "form": self.sub_form,
@@ -75,9 +77,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        # user_id = request.user.id
-        loggedin_username = request.user
-        loggedin_user = User.objects.get(username=loggedin_username)
+        loggedin_user = request.user
 
         if (request.POST.get("username")):
             subscription_form = SubscriptionForm(request.POST)
@@ -93,23 +93,16 @@ class SubscriptionPageView(LoginRequiredMixin, View):
                         return self.get(request, error_message="C'est vous ! ;)")
                 except IntegrityError:
                     return self.get(request, error_message=f"{added_user} déjà suivi.e !")
-                except User.DoesNotExist :
+                except User.DoesNotExist:
                     return self.get(request, error_message=f"Utilisateur '{added_user}' inconnu ! ")
                 except Exception as exception:
                     raise(exception)
-            
         elif request.POST.get("unsubscribe_id"):
             # id_to_remove = DeleteForm(request.POST)
             id_to_remove = request.POST["unsubscribe_id"]
             relationship_to_delete = UserFollows.objects.get(pk=id_to_remove)
             relationship_to_delete.delete()
 
-        # context = {
-        #     "form": SubscriptionForm(request.POST),
-        #     "subscriptions": [relationship_object for relationship_object in UserFollows.objects.filter(user=User.objects.get(pk=user_id))],
-        #     "subscribers": [relationship_object.user for relationship_object in UserFollows.objects.filter(followed_user=User.objects.get(pk=user_id))],
-        # }
-        # return render(request, self.template_name, context)
         return self.get(request)
 
 
@@ -125,14 +118,14 @@ class TicketPageView(LoginRequiredMixin, DetailView):
             }
         else:
             ticket = get_object_or_404(Ticket, id=ticket_id)
-            if ticket.user == request.user: 
+            if ticket.user == request.user:
                 context = {
                     "title": "Modifier un ticket",
-                    'ticket_form': TicketForm(instance = ticket),
+                    'ticket_form': TicketForm(instance=ticket),
                 }
             else:
                 context = {
-                    'read_only': False if ticket.user == request.user else True, 
+                    'read_only': False if ticket.user == request.user else True,
                     'ticket': ticket,
                 }
         return render(request, self.template, context)
@@ -146,11 +139,11 @@ class TicketPageView(LoginRequiredMixin, DetailView):
                 ticket.save()
         else:
             ticket = Ticket.objects.get(pk=ticket_id)
-            form = TicketForm(request.POST, request.FILES, instance = ticket)
+            form = TicketForm(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
                 ticket = form.save(commit=False)
                 ticket.save()
-        return redirect('posts')        
+        return redirect('posts')
 
 
 class ReviewPageView(LoginRequiredMixin, DetailView):
@@ -165,14 +158,14 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                 'review_form': ReviewForm(),
             }
             return render(request, self.template, context)
-        else: 
+        else:
             ticket = Ticket.objects.get(pk=ticket_id)
             review = Review.objects.filter(ticket__id=ticket_id)
             if review:
                 context = {
                     'title': "Ecrire une critique",
                     'ticket': ticket,
-                    'review_form': ReviewForm(instance = review[0]),
+                    'review_form': ReviewForm(instance=review[0]),
                 }
                 return render(request, self.template, context)
             else:
@@ -180,7 +173,7 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                     "title": "Modifier une critique",
                     'ticket': ticket,
                     'review_form': ReviewForm()
-                }            
+                }
                 return render(request, self.template, context)
 
     def post(self, request, ticket_id):
@@ -203,10 +196,10 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
         else:
             review = Review.objects.filter(ticket__id=ticket_id)
             if review:
-                form = ReviewForm(request.POST, instance = review[0])
+                form = ReviewForm(request.POST, instance=review[0])
                 if form.is_valid():
                     review = form.save(commit=True)
-                else: 
+                else:
                     return self.get(request, ticket_id)
             else:
                 form = ReviewForm(request.POST)
@@ -231,7 +224,7 @@ def get_posts(users_to_display, owned_only=False):
 
     if not owned_only:
         tickets_ids = [ticket.id for ticket in tickets]
-        # response by users which are not followed 
+        # response by users which are not followed
         response_reviews = Review.objects.filter(ticket__id__in=tickets_ids).exclude(user__id__in=users_to_display)
         response_reviews = response_reviews.annotate(content_type=Value('REVIEW', CharField()))
     else:
@@ -239,7 +232,7 @@ def get_posts(users_to_display, owned_only=False):
 
     posts = sorted(
         chain(tickets, reviews, response_reviews),
-        key=lambda post:post.time_created,
+        key=lambda post: post.time_created,
         reverse=True
     )
     return posts
