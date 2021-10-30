@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, redirect_to_login
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import handler404, handler500, handler403, handler400
 
 import authentication.views
 import reviews_webapp.views
@@ -27,11 +26,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LoginView.as_view(
         template_name='authentication/login.html',
-        redirect_authenticated_user=True), 
+        redirect_authenticated_user=True),
         name="login"),
     path('logout', LogoutView.as_view(), name="logout"),
     path('password_change', PasswordChangeView.as_view(
-        template_name = 'authentication/password_change.html'),
+        template_name='authentication/password_change.html'),
         name="password_change"),
     path('change-password-done/', PasswordChangeDoneView.as_view(
         template_name='authentication/password_change_done.html'),
@@ -41,7 +40,7 @@ urlpatterns = [
     path('subscriptions/', reviews_webapp.views.SubscriptionPageView.as_view(), name='subscriptions'),
     path('posts/', reviews_webapp.views.PostsPageView.as_view(), name='posts'),
     path('ticket/<ticket_id>', reviews_webapp.views.TicketPageView.as_view(), name='ticket'),
-    path('ticket/<ticket_id>/review/', reviews_webapp.views.ReviewPageView.as_view(), name='review'),  
+    path('ticket/<ticket_id>/review/', reviews_webapp.views.ReviewPageView.as_view(), name='review'),
 ]
 
 # handler404 = reviews_webapp.views.page_not_found_view

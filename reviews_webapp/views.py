@@ -13,7 +13,7 @@ from authentication.models import User
 class FeedPageView(LoginRequiredMixin, View):
     
     def get(self, request):
-        username = request.user
+        # username = request.user
         user_id = request.user.id
         subscriptions = [user.followed_user.id for user in UserFollows.objects.filter(user=user_id)]
         subscriptions.append(user_id)
@@ -75,7 +75,7 @@ class SubscriptionPageView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        user_id = request.user.id
+        # user_id = request.user.id
         loggedin_username = request.user
         loggedin_user = User.objects.get(username=loggedin_username)
 

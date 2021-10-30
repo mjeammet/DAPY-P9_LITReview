@@ -17,10 +17,10 @@ Database: SQLite3
 - Clone the repository 
 `git clone https://github.com/mjeammet/OCP9_LITReview.git`
 
-- Install the virtual environment
-`python -m venv env`
-`source env/bin/activate`
-`pip install -r requirements.txt`
+- Install the virtual environment, install required packages 
+```python -m venv env```
+```source env/bin/activate```
+```pip install -r requirements.txt```
 
 ## 3 - Usage
 
@@ -42,6 +42,6 @@ This repo contains a folder dedicated to flake8 report. The index file shows no 
 
 To generate a new report
 - remove existing flake8_report
-- edit setup.cfg if you wish to add/remove folders
-- from the root folder: 
-`flake8 --format=html --htmldir=flake8_report`
+- edit setup.cfg if you wish to add/remove any folder
+- from the root folder, execute
+```flake8 --format=html --htmldir=flake8_report```

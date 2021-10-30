@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import login
-from django.conf import settings 
+from django.conf import settings
 from django.views.generic import View
 
 from . import forms
+
 
 class SignupPageView(View):
     template_name = "authentication/signup.html"

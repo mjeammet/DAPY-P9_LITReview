@@ -6,7 +6,7 @@
       <link rel="stylesheet" href="styles.css">
    </head>
    <body>
-      <div id="masthead" class="sev-1"></div>
+      <div id="masthead" class="sev-2"></div>
       <div id="page">
          <h1>
             <a href="reviews_webapp.views.report.html">
@@ -71,16 +71,7 @@
                class="code sev- "><tt><i>15</i>     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span></tt>
             </div>
             <div id="l16"
-               class="code sev-1  le">
-               <ul class="violations">
-               
-                  <li>
-                     <span class="count sev-1">
-                        F841
-                     </span>
-                     Local variable 'username' is assigned to but never used</li>
-               
-               </ul><tt><i>16</i>         <span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span></tt>
+               class="code sev- "><tt><i>16</i>         <span class="c1"># username = request.user</span></tt>
             </div>
             <div id="l17"
                class="code sev- "><tt><i>17</i>         <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span></tt>
@@ -275,16 +266,7 @@
                class="code sev- "><tt><i>77</i>     <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span></tt>
             </div>
             <div id="l78"
-               class="code sev-1  le">
-               <ul class="violations">
-               
-                  <li>
-                     <span class="count sev-1">
-                        F841
-                     </span>
-                     Local variable 'user_id' is assigned to but never used</li>
-               
-               </ul><tt><i>78</i>         <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span></tt>
+               class="code sev- "><tt><i>78</i>         <span class="c1"># user_id = request.user.id</span></tt>
             </div>
             <div id="l79"
                class="code sev- "><tt><i>79</i>         <span class="n">loggedin_username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span></tt>
