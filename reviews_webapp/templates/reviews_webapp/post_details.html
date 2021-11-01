@@ -1,50 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{ title }}</h1>
 
-{% if ticket.user != request.user and not review_form and ticket %}
-    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
-{% endif %}
-
-{% if review_form and ticket %}
-<div class="box post_box">
-    Vous êtes en train de poster en réponse à
-    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
-    <hr>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <div>Titre: {{ review_form.headline }}</div>
-        <div>
-        <!-- {% for radio in review_form.rating %}
-            {{ radio }}
-        {% endfor %} -->
-            {% for radio in review_form.rating %}
-            {{ radio }}<p class="fa fa-star"></p>
-            {% endfor %}
+{% if ticket %}
+    {% if ticket.user != request.user and not review_form %}
+        {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+    {% elif review_form %}
+        <div class="box post_box">
+            Vous êtes en train de poster en réponse à
+            {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+            <hr>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% include 'reviews_webapp/includes/new_review_snippet.html' %}
+                <input type="submit">
+            </form>            
         </div>
-        
-        <div>{{ review_form.body }}</div>
-        
-        <input type="submit">
-    </form>
-</div>
-<!-- {% elif ticket and read_only %} -->
-{% elif ticket and ticket.user != request.user %}
-    {% include 'reviews_webapp/includes/ticket_snippet.html' with post=ticket %}
+    {% endif %}
 {% else %}
-    <div class="box post_box">
-        <form action="" method="post" enctype="multipart/form-data">
+    <h1>Créer un ticket</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="box post_box">
             {% csrf_token %}
             {{ ticket_form.as_p }}
         
             {% if review_form %}
-                <hr>
-                {{ review_form.as_p }}
+            </div>
+            <h1>... et sa critique !</h1>
+            <div class="box post_box">
+                {% include 'reviews_webapp/includes/new_review_snippet.html' %}
             {% endif %}
             <input type="submit">
-        </form>
-    </div>    
+        </div>
+    </form>
 {% endif %}
 
 {% endblock content %}

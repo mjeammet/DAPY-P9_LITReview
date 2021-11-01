@@ -1,0 +1,10 @@
+{% csrf_token %}
+    
+<div>Titre: {{ review_form.headline }}</div>
+<div>
+    {% for radio in review_form.rating %}
+    {{ radio }}<p class="fa fa-star"></p>
+    {% endfor %}
+</div>
+
+<div>{{ review_form.body }}</div>

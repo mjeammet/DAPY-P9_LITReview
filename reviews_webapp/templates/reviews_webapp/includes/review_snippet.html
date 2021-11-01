@@ -28,7 +28,7 @@
             {% csrf_token %}
             {{ deletereview_form }}
             <button><a href="{% url 'review' ticket_id=post.ticket.id %}">Modifier</a></button>
-            <button type="submit" name="review_id" value="{{ post.id }}" >Supprimer</button>
+            <button type="submit" name="review_id" value="{{ post.id }}" onclick="return confirm('Supprimer cette critique ?')">Supprimer</button>
         </form>
     {% endif %}
 </div>

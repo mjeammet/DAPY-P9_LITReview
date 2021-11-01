@@ -27,17 +27,17 @@ pip install -r requirements.txt
 
 ## 3 - Usage
 
-From the root repo
-`source env/bin/activate`
+(After activating environment with `source env/bin/activate`) From the root repo, get server running with  
+
 `python manage.py runserver`
 
-to start the development server at [http://127.0.0.1:8000](http://127.0.0.1:8000)
+This will start the development server at [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 Database has been populated with a few examples, users, tickets and reviews and subscriptions. 
 
-To log in with an pre-generated user:
-username: juno
-password: -
+To log in with an pre-generated user:  
+username: juno  
+password: 16ouaf!!
 
 ## 4 - flake8
 

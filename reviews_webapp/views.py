@@ -157,6 +157,7 @@ class ReviewPageView(LoginRequiredMixin, DetailView):
                 'ticket_form': TicketForm(),
                 'review_form': ReviewForm(),
             }
+            print(request.path_info)
             return render(request, self.template, context)
         else:
             ticket = Ticket.objects.get(pk=ticket_id)

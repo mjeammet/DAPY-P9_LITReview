@@ -33,7 +33,7 @@
             {% csrf_token %}
             {{ deleteticket_form }}
             <button><a href="{% url 'ticket' ticket_id=post.id %}">Modifier</a></button>
-            <button type="submit" name="ticket_id" value="{{ post.id }}" >Supprimer</button>
+            <button type="submit" name="ticket_id" value="{{ post.id }}" onclick="return confirm('Supprimer ce ticket ?')">Supprimer</button>
         </form>
     {% endif %}
 </div>
