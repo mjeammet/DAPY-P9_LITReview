@@ -9,14 +9,18 @@
             {{ form.errors }}
         {% endif %}
         <form method="post">
-            {{ form.as_table }}
+            <!-- {{ form.as_p }} -->
+            {% for key in form %}
+                <p>{{ key.label }} : {{ key }}
+                {% if key.name == "password1" %}
+                    <br>(Au moins 8 charactères alphanumériques)
+                {% endif %}
+                </p>
+            {% endfor %}
             {% csrf_token %}
-            <button >S’inscrire</button>
-        </form>
-        <p>
             <button onclick="window.location.href='/'">Retourner</button>
             <button type="submit">S'inscrire</button>
-        </p>
+        </form>
     </div>
 </div>
 {% endblock content %}

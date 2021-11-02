@@ -6,7 +6,7 @@
     <i class="fas fa-receipt"></i>
     <i class="fas fa-pen-fancy"></i>
     <button><a href="{% url 'ticket' ticket_id=0 %}">Demander<br>une critique</a></button>
-    <button><a href="{% url 'review' ticket_id=0 %}">Créer<br>une critique</a></button>
+    <button><a href="{% url 'review' ticket_id=0 %}">Ecrire<br>une critique</a></button>
 </p>
 {% for post in posts %}
     {% if post.content_type == 'TICKET' %}
@@ -15,5 +15,17 @@
         {% include 'reviews_webapp/includes/review_snippet.html' %}
     {% endif %}
 {% endfor %}
+{% if posts|length == 0 %}
+    <div class="box post_box">
+        <p>
+        Commencez à 
+        <a href="{% url 'ticket' ticket_id=0 %}">demander</a>
+        et
+        <a href="{% url 'review' ticket_id=0 %}">écrire</a>
+        des critiques<br>
+        ou <a href="{% url 'subscriptions' %}">suivez d'autres utilisateurs</a> !
+        </p>
+    </div>
+{% endif %}
 
 {% endblock content %}
