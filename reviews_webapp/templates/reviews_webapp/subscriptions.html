@@ -15,17 +15,17 @@
             </form>
             <p class="error_message">{{ error_message }}</p>
         </p>
-        <table style="width: 100%;">
+        <table>
             {% for relationship in subscriptions %}
                 <tr>
-                <td style="border: 1px solid black">{{ relationship.followed_user.username }}</td>
-                <td>
-                    <form action="{% url 'subscriptions' %}" method="post">
-                        {% csrf_token %}
-                        <button value="{{ relationship.id }}" name="unsubscribe_id" method="post"><i class="fa fa-trash"></i></button>
-                    </form>
-                </td>
-            </tr>
+                    <td class="friend-box">{{ relationship.followed_user.username }}</td>
+                    <td>
+                        <form action="{% url 'subscriptions' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" value="{{ relationship.id }}" name="unsubscribe_id" method="post"><i class="fa fa-close"></i></button>
+                        </form>
+                    </td>
+                </tr>
 
             {% endfor %}
         </table>
@@ -33,10 +33,10 @@
 
     <div class="box follow_box">
         <h3>Abonnés</h3>
-        <table style="width: 100%;">
+        <table>
             {% for relationship in subscribers %}
             <tr>
-                <td style="border: 1px solid black">{{ relationship.user }}</td>
+                <td class="friend-box">{{ relationship.user }}</td>
             </tr>
             {% endfor %}
         </table>

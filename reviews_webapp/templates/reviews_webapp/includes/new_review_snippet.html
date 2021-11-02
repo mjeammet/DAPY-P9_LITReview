@@ -1,3 +1,7 @@
+{% if review_form.errors %}
+    {{ review_form.errors }}
+{% endif %}
+
 {% csrf_token %}
     
 <div>Titre: {{ review_form.headline }}</div>

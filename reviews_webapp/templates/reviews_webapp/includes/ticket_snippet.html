@@ -16,7 +16,7 @@
         {% endif %}
         <div class="ticket_text">
             <h3>{{ post.title }} </h3>        
-            <p>{{ post.description }}</p>
+            <p>{{ post.description|safe }}</p>
 
             {% if request.path_info == "/feed" %}
                 {% if post.has_review %}

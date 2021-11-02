@@ -11,7 +11,7 @@
         <p class="post_timecreated" style="float:right;">{{ post.time_created }}</p>
     </div>
 
-    <h3 style="clear: both; text-align: left; margin-top: 0px; padding-top:0px">{{ post.headline }} - 
+    <h3 class="headline">{{ post.headline }} - 
         {% for item in "012345" %}
             {% if forloop.counter <= post.rating %}
                 <i class="fa fa-star"></i>
@@ -19,7 +19,7 @@
         {% endfor %}
     </h3>
        
-    <p style="text-align: left;">{{ post.body }}</p>
+    <p style="text-align: left;">{{ post.body|safe }}</p>
 
     {% include 'reviews_webapp/includes/ticket_snippet.html' with post=post.ticket editable=False %}
 
