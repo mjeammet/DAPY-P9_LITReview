@@ -52,6 +52,15 @@ nav {
     padding: 1vh 0;
 }
 
+a {
+    color: #212529;
+    text-decoration: none;
+  }
+
+a:hover {
+    color: #0085A1;
+}
+
 nav a{
     padding: 5vw;    
 }
